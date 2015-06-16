@@ -25,6 +25,28 @@ function OptionsPage(){
 	this.selectedIndex;
 	this.searchText;
 	this.picOtsHLR;
+	this.menuPagePhp = 'php/menu.php';
+	this.menuNewPagePhp = 'php/menuNew.php';
+	this.addDelPagePhp = 'php/ad_ed_de.php';
+	this.pagePagePhp = 'php/page.php';
+	this.parserPagePhp = 'php/parseTest2.php';
+	this.parserAddPagePhp = 'php/parserFilmsAdd.php';
+	this.filePagePhp = 'php/file.php';
+	this.editPagePhp = 'php/editing.php';
+	this.parserFilmPagePhp = 'php/parserFilms2.php';
+	this.parserFilmMPagePhp = 'php/parserFilmsM.php';
+	this.passwordPagePhp = 'php/password.php';
+	
+	this.getmenuPagePhp = function(){return this.menuPagePhp;}
+	this.getmenuNewPagePhp = function(){return this.menuNewPagePhp;}
+	this.getAddDelPagePhp = function(){return this.addDelPagePhp;}
+	this.getpagePagePhp = function(){return this.pagePagePhp;}
+	this.getparserPagePhp = function(){return this.parserPagePhp;}
+	this.getparserAddPagePhp = function(){return this.parserAddPagePhp;}
+	this.getfilePagePhp = function(){return this.filePagePhp;}
+	this.geteditPagePhp = function(){return this.editPagePhp;}
+	this.getparserFilmPagePhp = function(){return this.parserFilmPagePhp;}
+	this.getparserFilmMPagePhp = function(){return this.parserFilmMPagePhp;}
 	
 	this.setpageW = function(pageW){this.pageW = pageW;}
 	this.getpageW = function(){return this.pageW;}
@@ -95,7 +117,7 @@ function afterCreate(){//отрисовка страницы средствам�
 function afterCreate(){
 	$.ajax({
 		type:'POST',
-		url:'menuNew.php',
+		url:opt.getmenuNewPagePhp(),
 		async:true,
 		data:'',
 		cache:false,
@@ -143,7 +165,7 @@ function showRssKP(th){//RSS с кинопоиска
 
 /* RSS */
  function getRSS(st, feedUrl) {//взять RSS по ссылке
-	$.get('proxy.php?url=' + feedUrl, function(data) {
+	$.get('php/proxy.php?url=' + feedUrl, function(data) {
 		var html = "<ul>";
 		$(data).find('item').each(function() {
 			var title = $(this).find('title').text();
@@ -163,7 +185,7 @@ function setReyt(th, num){//получить рейтинг для фильма
 	var id= $(th).closest('.photoblock').find('.filmPoster').attr('id');//получить id фильма
 	var str = 'id='+id+'&num='+num+'&func=updateReyt';//строка для отправки в php
 	$(th).closest('.iDiv').find('#dig').text(num);//обновление оценки фильма
-	xhttpRequest('', 'ad_ed_de.php', str);//отправка запроса к php
+	xhttpRequest('', opt.getAddDelPagePhp(), str);//отправка запроса к php
 	$(th).closest('.starsReyt').animate({//спрятать div с оценкой
 									'height':0,
 									'top':0
@@ -174,13 +196,13 @@ function viewFilm(th, pPage){
 	$('#prev').attr('disabled', 'disabled');
 	$('#forv').attr('disabled', 'disabled');
 	var str = 'id='+th.id+'&pPage='+pPage;
-	xhttpRequest('filmsPage', 'page.php', str);
+	xhttpRequest('filmsPage', opt.getpagePagePhp(), str);
 	$('#pageF').css({width:opt.getpageW()});
 	$('#filmsPage').css({'padding-right':15});
 }
 
 function parseK(){
-	xhttpRequest('parseRes', 'parseTest2.php', 'id=3434');
+	xhttpRequest('parseRes', opt.parserPagePhp(), 'id=3434');
 }
 
 function xhttpRequest(documentGetElementByIdInnerHTML, pagePHP, str){
@@ -216,16 +238,15 @@ function xhttpRequest(documentGetElementByIdInnerHTML, pagePHP, str){
 function category(){
 	var  searchCategory = $('#searchSelect').val();
 	var selectedIndex = $("#searchSelect option").index($("#searchSelect option:selected"));
-	xhttpRequest('filmsPage', 'menu.php', 'searchCategory='+searchCategory+'&selectedIndex='+selectedIndex);
+	xhttpRequest('filmsPage', opt.getmenuPagePhp(), 'searchCategory='+searchCategory+'&selectedIndex='+selectedIndex);
 }
 
 function searchKP(id, page){
 	var searchText = $('#search_text').val();
 	if(searchText!=''){
 		var str = 'filmName='+searchText;
-		xhttpRequest('', 'parserFilmsAdd.php', str);
-		//xhttpRequest('mainPage', 'menu.php', 'id='+id+'&pPage='+page);
-		setTimeout(function(){xhttpRequest('mainPage', 'menu.php', 'id='+id+'&pPage='+page);},2000);
+		xhttpRequest('', opt.getparserAddPagePhp(), str);
+		setTimeout(function(){xhttpRequest('mainPage', opt.getmenuPagePhp(), 'id='+id+'&pPage='+page);},2000);
 	}
 }
 
@@ -233,7 +254,7 @@ function search(){
 	var searchText = $('#search_text').val();
 	if(searchText!=''){
 		var str = '&searchText='+searchText;
-		xhttpRequest('mainPage', 'menu.php', str);
+		xhttpRequest('mainPage', opt.getmenuPagePhp(), str);
 	}
 }
 
@@ -259,7 +280,7 @@ function go_page(th, pPage, PR){
 		var page=pPage;
 	}
 	var str='page='+page;
-	xhttpRequest('filmsPage', 'menu.php', str);
+	xhttpRequest('filmsPage', opt.getmenuPagePhp(), str);
 }
 
 function none(alternativeName){
@@ -344,7 +365,7 @@ function view_film2(number, altName, exeName){//обработка данных 
 			}
 		 }
 	   }
-	xhttp.open('POST','file.php',true);
+	xhttp.open('POST',opt.getfilePagePhp(),true);
 	xhttp.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 	var str='filmsPath='+filmsPath+'&name='+name+'&exe='+exeN+'&fileName='+fileName;
 	xhttp.send(str);
@@ -521,7 +542,7 @@ function make_change(func, n, i){
 			}
 		 }
 	   }
-	xhttp.open('POST','ad_ed_de.php',true);
+	xhttp.open('POST',opt.getAddDelPagePhp(),true);
 	xhttp.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 	var str=str+'&func='+func;
 	xhttp.send(str);
@@ -561,7 +582,7 @@ function editingInfo(func,w){
 			}
 		}
 	}
-	xhttp.open('POST','editing.php',false);
+	xhttp.open('POST',opt.geteditPagePhp(),false);
 	xhttp.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 	var str='func='+func;
 	//if(w!=null) str=str+'&f_id='+w.firstChild.innerText+'&f_name='+w.lastChild.innerText;
@@ -641,8 +662,8 @@ function go_action(func, scheme, w, page, param){
 			switch (scheme){
 				case 'film': //document.getElementById('add_film_main').style.display = 'inline';
 					var str = 'filmName='+param+'&id='+w+'&func='+func+'_'+scheme;
-					xhttpRequest('', 'ad_ed_de.php', str);
-					xhttpRequest('mainPage', 'menu.php', 'page='+page);
+					xhttpRequest('',opt.getAddDelPagePhp(), str);
+					xhttpRequest('filmsPage', opt.getmenuPagePhp(), 'page='+page);
 				break;
 				case 'acter': document.getElementById('add_film_main').style.display = 'none';
 				break;
@@ -667,13 +688,13 @@ function go_action(func, scheme, w, page, param){
 				scheme = param;
 			}
 			var str = 'filmName='+scheme+'&id='+w;
-			xhttpRequest('', 'parserFilms2.php', str);
-			xhttpRequest('filmImgBox', 'page.php', 'id='+w+'&pPage='+page);
+			xhttpRequest('', opt.getparserFilmPagePhp(), str);
+			xhttpRequest('filmsPage', opt.getpagePagePhp(), 'id='+w+'&pPage='+page);
 		}
 		break;
 		case 'downloadFT':{
 			var str = 'nameEng='+w+'&director='+param;
-			xhttpRequest('downloadLink', 'parserFilmsM.php', str);
+			xhttpRequest('downloadLink', opt.getparserFilmMPagePhp(), str);
 		}
 		break;
 	}
@@ -807,7 +828,7 @@ function go_menu(menu){
 		 }
 	   }
 	//xhttp.open('POST','menu.php',true);
-	xhttp.open('POST','menu.php',true);
+	xhttp.open('POST',opt.getmenuPagePhp(),true);
 	xhttp.setRequestHeader('Content-type','application/x-www-form-urlencoded; charset=utf-8');
 	var str='menu='+menu+'&picKolW='+opt.getpicKolW()+'&picKolH='+opt.getpicKolH()+'&page='+opt.getpage()+'&pageW='+opt.getpageW()+'&pageH='+opt.getpageH()+'&picOtsHLR='+opt.getpicOtsHLR();
 	xhttp.send(str);
@@ -840,7 +861,7 @@ function pass(){
 			if(rez=='Авторизация успешна+')document.location.replace("menu_admin.php");
 		 }
 	   }
-	xhttp.open('POST','password.php',true);
+	xhttp.open('POST',opt.getpasswordPagePhp(),true);
 	xhttp.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 	var str='login='+login+'&password='+password+'&lnl='+document.getElementById('password').value+'&lnl2='+login+'&clWidth='+screen.width+'&clHeight='+screen.height;
 	xhttp.send(str);
