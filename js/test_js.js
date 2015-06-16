@@ -131,6 +131,8 @@ function afterCreate(){
 				go_menu('admin');
 				var cl = document.documentElement.clientWidth/2;
 				$('#mTable').css({'position':'relative', 'left':cl});
+				$('#filmsPage').css({'width':opt.getpageW()});
+				$('#mainPage').css({'width':screen.width});
 			}
 	});
 }
@@ -198,7 +200,7 @@ function viewFilm(th, pPage){
 	var str = 'id='+th.id+'&pPage='+pPage;
 	xhttpRequest('filmsPage', opt.getpagePagePhp(), str);
 	$('#pageF').css({width:opt.getpageW()});
-	$('#filmsPage').css({'padding-right':15});
+	//$('#filmsPage').css({'padding-right':15});
 }
 
 function parseK(){
@@ -678,6 +680,8 @@ function go_action(func, scheme, w, page, param){
 			document.getElementById('add_acter').innerHTML = '';
 		break;
 		case 'prev':
+			$('#prev').removeAttr('disabled');
+			$('#forv').removeAttr('disabled');
 			prevPage = page;
 			go_page(w, page, 'P');
 			//document.location.replace("main.html");

@@ -40,7 +40,7 @@ function picturesCountXY(rezult, opt){
 	picKolH = Math.floor(freePixelH/(picHeight+10));//количество строк с картинками
 	var picOstH = freePixelH%(picHeight+10);//остаток свободных пикселей ширины
 	var picOtsHLR = picOstH/2;//отступы от краев экрана
-	pageW = (picWidth+lROtstup)*picKolW+lRButton*2;
+	pageW = (picWidth+lROtstup)*picKolW;//+lRButton*2;
 	var picOstW = (glWidth - pageW)/2;	
 	pageH = (picHeight+lROtstup)*picKolH+50;
 	var butRight = pageW-lRButton;
