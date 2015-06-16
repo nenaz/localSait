@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<!--script src="less_min.js" type="text/javascript"></script-->
+	<script src="js/test_js.js" type="text/javascript" ></script>
+	<script src="js/jquery.js" type="text/javascript" ></script>
+	<script src="js/jmain.js" type="text/javascript" ></script>
+	<!--script type="text/javascript" src="jquery.scrollbox.min.js"></script>
+	<script type="text/javascript" src="scrollbox.js"></script-->
+</head>
+<body onload="afterCreate();">
+	<!--div class="RSSButton" style="z-index:15;" onclick="showRssKP(this);"><span>RSS Кинопоиск</span></div-->
+	
+	<!--img src="/images/system/f-t_cr2.png" style="height:33px;"/-->
+	<img id="rssLImg" onclick="showRssFT(this);" class="dImg" src="/images/system/rss_blue.png" style="position:absolute;z-index:15;"/>
+	<div id="rssLeft" style="z-index:15; position:absolute;display:none;" class="scroll-text">
+	</div>
+	<img id="rssRImg" onclick="showRssKP(this);" class="dImg" src="/images/system/rss_blue.png" style="position:absolute;z-index:15;left:98%;"/>
+	<div id="rssRight" style="z-index:15; position:absolute;display:none;" class="scroll-text">
+	</div>
+	<div id="menuTable">
+			<div id="mTable">
+				<input id="exit" type="button" value="Выход" onclick="go_action('exit');"/>
+				<div id="navPages"></div>
+				<div>
+					<input type="text" class="floatL" id="search_text" onkeydown="checkKey(event, 'search');"/>
+					<select class="floatL" id="searchSelect" onchange="category();">
+					</select>
+					<input class="floatL" type="button" value="Поиск" onclick="search();"/>
+				</div>
+			</div>
+		</div>
+	<div id="mainPage" style="z-index:10;">
+		<input class="buttonM" id="prev" type="button" style="height:910px;" value="Назад" onclick="go_page('', '-1');"/>
+		<div id="filmsPage" style="float:left;"></div>
+		<input class="buttonM" id="forv" type="button" style="height:910px;" value="Вперед" onclick="go_page('', '1');"/>
+	</div>
+	<div id="parser"><div id="load"></div></div>
+</body>
+</html>
