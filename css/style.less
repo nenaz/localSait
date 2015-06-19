@@ -4,6 +4,7 @@
 	@colorRed: red;
 	@color: #faa51a;
 	@colMenuTable: #d5d5d5;
+	@colorGraphCateg: #0A0AC9;
 /* переменные конец */
 
 /* index.php начало */
@@ -108,7 +109,7 @@ body{
 	width:87px;
 }
 #prev{
-	margin-right:15px; 
+	/*margin-right:15px; */
 	float:left;
 }
 #menuTable{
@@ -155,6 +156,9 @@ body{
 	float:left;
 	height:300px;
 	width:220px;
+}
+.photoblock:hover{
+	box-shadow: 0px 0px 10px green;
 }
 .filmPoster{
 	margin-top:5px;
@@ -285,6 +289,25 @@ body{
     -webkit-transform: rotate(90deg); /* Для Safari, Chrome, iOS */
     /*-o-transform: rotate(90deg); /* Для Opera */
     /*transform: rotate(90deg);*/
+}
+
+.d1{
+	display:flex;
+}
+.d2{
+	width:100px; float:left; font-size:14px;
+}
+.d3{
+	margin-left:100px; height:10px; width:0px; background-color:@colorGraphCateg; margin-bottom:3px;box-shadow:2px 2px 2px @colorGraphCateg;
+}
+.nameCat{
+	font-size:12px; margin-left:10px;
+}
+#graphics{
+	position:absolute; width:420px; height:300px; background-color:#fff; top:90px; left:1500px;
+}
+#diagGr{
+	margin:5px 0 0 5px;
 }
 /* ************************************************** */
 /* menu.php конец*/

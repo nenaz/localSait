@@ -39,8 +39,16 @@ $title->appendChild(
                 $dom->createTextNode('Great American Novel'));
 */
 $arrCategory = explode(',', $category);
-                                             
-$rr = 1;
+$k=0;
+	for($i=1; $i < count($arrCategory); $i++){
+		$query = "SELECT id FROM films WHERE genre LIKE '%$arrCategory[$i]%'";
+		$res = mysqli_query($dbh, $query);
+		$count = mysqli_num_rows($res);
+		if($count>0){
+			$arrCountForCateg[$arrCategory[$i]] = $count;
+		}
+	}
+	
 header("Content-Type: text/xml");
 $xml = new DomDocument('1.0');
 $menuTable = $xml->appendChild($xml->createElement('menuTable'));
@@ -62,10 +70,19 @@ $arrayPicturePath = $menuTable->appendChild($xml->createElement('arrayPicturePat
 $picturePath = $arrayPicturePath->appendChild($xml->createElement('picturePath'));
 $filmsPath = $menuTable->appendChild($xml->createElement('filmsPath'));
 $filmsPath->appendChild($xml->createTextNode($filmsP));
+$countFilmsOfCategory = $menuTable->appendChild($xml->createElement('countFilmsOfCategory'));
+foreach($arrCountForCateg as $key => $value){ 
+	$items = $countFilmsOfCategory->appendChild($xml->createElement('items'));
+	$keyCateg = $items->appendChild($xml->createElement('keyCateg'));
+	$keyCateg->appendChild($xml->createTextNode($key));
+	$valueCateg = $items->appendChild($xml->createElement('valueCateg'));
+	$valueCateg->appendChild($xml->createTextNode($value));
+}
 
 $xml->formatOutput = true;
 $requestXML = $xml->saveXML();
 echo $requestXML;
+$xml->save('test1.xml');
 /*
 <menuTable>
         <countAll></countAll>
@@ -82,6 +99,12 @@ echo $requestXML;
                 <picturePath></picturePath>
         </arrayPicturePath>
         <filmsPath></filmsPath>
+		<countFilmsOfCategory>
+			<items>
+				<keyCateg></keyCateg>
+				<valueCateg></valueCateg>
+			</items>
+		</countFilmsOfCategory>
 </menuTable>
 */
 /*header("Content-Type: text/xml");

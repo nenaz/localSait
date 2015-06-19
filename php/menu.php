@@ -78,7 +78,7 @@
         $i=0;
         ?>
         <div id="page" style="height:<?php echo $pageH;?>px; width:<?php echo $pageW;?>px; margin-right:15px;">
-                <div id="filmImgBox" style="padding-left:<?php echo $picOtsHLR;?>px">
+                <div id="filmImgBox">
                         <?php $i=0;
                         while($row = mysqli_fetch_array($res)){
                                 $i++;
@@ -86,8 +86,9 @@
                                 <div class="photoblock" id="photoblock<?php echo '_'.$i;?>" style="<?php
                                         $nameF = FILMS_PATH.str_replace(" ", "_", $row[12]).$row[13];
                                         if((!file_exists($nameF)) && (!file_exists(mb_convert_encoding($nameF, 'Windows-1251', 'UTF-8')))){
-                                                ?>background:red;<?php
-                                        }?>">
+                                                echo "bacground-color:red;";
+                                        }
+										?>">
                                                 <img class="filmPoster" id="<?php echo $row[0];?>" onclick="viewFilm(this, <?php echo $page;?>);" exeName="<?php echo $row['exe'];?>" title="<?php echo $row['name_eng'];?>" src="<?php echo $row[11];?>"/>
                                                 <div class="iDiv" onmouseenter="openPlay(this);" onmouseleave="closePlay(this);">
                                                         <img class="dImg dplay" src="/images/system/play.png"/>

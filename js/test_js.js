@@ -5,26 +5,27 @@ var prevPage = 0;
 var filmsPath = 'D:\\Films';
 var rezult = null;
 /*var pageW=0, pageH=0, buttonHeight=0, picKolW=0, picKolH=0;
-var count=0; //общее количество фильмов
-var pageCount=0;//количество страниц навигации
-var page =1;//текущая активная страница
-var arrCategory = [];//список категорий фильмов
-var selectedIndex = 0;//индекс активной категории поиска
-var searchText = '';//значение строки поиска фильма
+var count=0; 
+var pageCount=0;
+var page =1;
+var arrCategory = [];//
+var selectedIndex = 0;
+var searchText = '';
 */
 function OptionsPage(){
-	this.pageW;
-	this.pageH;
-	this.buttonHeight;
-	this.picKolW;
-	this.picKolH;
-	this.count;
-	this.pageCount;
-	this.page = 1;
-	this.arrCategory = [];
-	this.selectedIndex;
-	this.searchText;
+	this.pageW;//ширина блока с картинками
+	this.pageH;//высота блока с картинками
+	this.buttonHeight;//ширина кнопок Вперед Назад
+	this.picKolW;//количество столбцов с картинками (не более 6)
+	this.picKolH;//количество строк с картинками
+	this.count;//общее количество фильмов
+	this.pageCount;//количество страниц навигации
+	this.page = 1;//текущая активная страница
+	this.arrCategory = [];//список категорий фильмов
+	this.selectedIndex;//индекс активной категории поиска
+	this.searchText;//значение строки поиска фильма
 	this.picOtsHLR;
+	this.arrCountFilmsOfCategory;//ассоциативный массив, где key - названия категорий с !0 количеством фильмов, а value - количесвтво
 	this.menuPagePhp = 'php/menu.php';
 	this.menuNewPagePhp = 'php/menuNew.php';
 	this.addDelPagePhp = 'php/ad_ed_de.php';
@@ -36,7 +37,7 @@ function OptionsPage(){
 	this.parserFilmPagePhp = 'php/parserFilms2.php';
 	this.parserFilmMPagePhp = 'php/parserFilmsM.php';
 	this.passwordPagePhp = 'php/password.php';
-	
+//переменные файлов php	
 	this.getmenuPagePhp = function(){return this.menuPagePhp;}
 	this.getmenuNewPagePhp = function(){return this.menuNewPagePhp;}
 	this.getAddDelPagePhp = function(){return this.addDelPagePhp;}
@@ -47,7 +48,7 @@ function OptionsPage(){
 	this.geteditPagePhp = function(){return this.editPagePhp;}
 	this.getparserFilmPagePhp = function(){return this.parserFilmPagePhp;}
 	this.getparserFilmMPagePhp = function(){return this.parserFilmMPagePhp;}
-	
+//сетеры и гетеры для настроек	
 	this.setpageW = function(pageW){this.pageW = pageW;}
 	this.getpageW = function(){return this.pageW;}
 	this.setpageH = function(pageH){this.pageH = pageH;}
@@ -74,12 +75,14 @@ function OptionsPage(){
 	this.getsearchText = function(){return this.searchText;}
 	this.setpicOtsHLR = function(picOtsHLR){this.picOtsHLR = picOtsHLR;}
 	this.getpicOtsHLR = function(){return this.picOtsHLR;}
+	this.setarrCountFilmsOfCategory = function(arrCountFilmsOfCategory){this.arrCountFilmsOfCategory = arrCountFilmsOfCategory;}
+	this.getarrCountFilmsOfCategory = function(){return this.arrCountFilmsOfCategory;}
 }
 
 var opt = new OptionsPage();
 
 function varToParamGl(arr){//заполнение глобальных параметров значениями из XML от сервера
-	var i=0, arrCategory=[];
+	var i=0, arrCategory=[], countFOC=0, arrcountFOC={};
 	var count=0, picKolW=0, picKolH=0;
 	for(i=0; i<arr.length; i++)
 		switch(i){
@@ -94,6 +97,12 @@ function varToParamGl(arr){//заполнение глобальных пара�
 	for(i=0; i<rezult.getElementsByTagName('category').length; i++)
 		arrCategory[i] = rezult.getElementsByTagName('category')[i].textContent;
 	opt.setarrCategory(arrCategory);
+	//opt.setarrCountFilmsOfCategory()
+	countFOC = (rezult.getElementsByTagName('countFilmsOfCategory')[0]).getElementsByTagName('items').length;
+	for(i=0; i<countFOC; i++){
+		arrcountFOC[rezult.getElementsByTagName('keyCateg')[i].textContent] = rezult.getElementsByTagName('valueCateg')[i].textContent;
+	}
+	opt.arrCountFilmsOfCategory = arrcountFOC;
 }
 /*
 function afterCreate(){//отрисовка страницы средствами JS
@@ -113,7 +122,12 @@ function afterCreate(){//отрисовка страницы средствам�
 	xhttp.open('POST', 'menuNew.php', true);
 	xhttp.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 	xhttp.send();
-}*/
+}*//*
+$(window).resize(function(){
+  //alert("Stop it!");
+  opt.setpageW()
+});*/
+
 function afterCreate(){
 	$.ajax({
 		type:'POST',
@@ -130,9 +144,12 @@ function afterCreate(){
 				createSearchText(opt.getsearchText());
 				go_menu('admin');
 				var cl = document.documentElement.clientWidth/2;
-				$('#mTable').css({'position':'relative', 'left':cl});
+				//$('#mTable').css({'position':'relative', 'left':cl});
 				$('#filmsPage').css({'width':opt.getpageW()});
 				$('#mainPage').css({'width':screen.width});
+				$('#menuTable').css({'width':screen.width});
+				$('#mTable').css({'margin':'auto'});
+				setTimeout('drawCategory()', 1000);
 			}
 	});
 }
