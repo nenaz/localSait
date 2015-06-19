@@ -83,52 +83,23 @@ function createCategorySelect(arrCategory, selectedIndex){
 function createSearchText(searchText){
 	if(searchText!='') $('#search_text').val(searchText);
 }
-/*
-function drawDiag(goriz){
-	var count = 10;
-	/*$('#diagOp').css({	'width':150, 'height':150, 'background-color':'#fff', 'font-size':0});*/
-	/*$('#diagGr').css({	'width':150, 'height':150, 'background-color':'#fff', 'font-size':0});
-	var sm='';
-	if(goriz==false){
-		for(var i=0; i<count; i++){
-			sm = "<div id=st"+i+" style='height:0px; width:10px; background-color:#0A0AC9;float:left; margin-right:3px;box-shadow:2px 2px 2px #0A0AC9; position:relative; top:100px;'></div>";
-			$(sm).appendTo('#diagGr');
-		}
-	}else{
-		for(var i=0; i<count; i++){
-			sm = "<div id=st"+i+" style='height:10px; width:0px; background-color:#0A0AC9;			margin-bottom:3px;box-shadow:2px 2px 2px #0A0AC9; position:relative;'></div>";
-			$(sm).appendTo('#diagGr');//32D124
-		}
-	}
-}
-
-function viewDiag(goriz){
-	var idi='', t=0, ttop=0;
-	if(goriz==false){
-		for(var i=0; i<10; i++){
-			idi='st'+i;	t=10*i;	ttop = 100 - t - 2;
-			$('#'+idi).animate({'height':t, 'top':ttop});
-		}
-	}else{
-		for(var i=0; i<10; i++){
-			idi='st'+i; t=10*i;
-			$('#'+idi).animate({'width':t});
-		}
-	}
-}*/
 
 function drawCategory(){
 	var i=0, sm='', count = opt.getarrCategory().length, t=0, arrcountFOC = opt.arrCountFilmsOfCategory;
 	var arrCateg = opt.getarrCategory();
 	$('#diagGr').css({	'width':410, 'height':150, 'background-color':'#fff', 'font-size':0});
-	sm = "<div class='d1'><div class='d2' style='width:101px;' id=categ0>ВСЕГО фильмов</div><div id='all' class='d3' style='width:160px;'></div><span class='nameCat'>"+opt.count+" шт.</span></div>";
+	sm = "<div class='d1'><div class='d2' style='width:200px;' id=categ0>ВСЕГО фильмов</div><div id='all' class='d3' style='width:160px;'></div><span class='nameCat'>"+opt.count+" шт.</span></div>";
 	$(sm).appendTo('#diagGr');
 	//$("#st"+i).animate({'width':200});
 	for(cat in arrcountFOC){
 		t=arrcountFOC[cat]*1.5;
 		sm = "<div class='d1'><div class='d2' id=categ"+i+">"+cat+"</div><div id=st"+i+" class='d3'></div><span class='nameCat'>"+arrcountFOC[cat]+" шт.</span></div>";
 		$(sm).appendTo('#diagGr');
-		$("#st"+i).animate({'width':t});
+		$("#st"+i).animate({'width':t}).click((function(icat){
+																	return function(){
+																		alert(icat);
+																	}
+																})(cat));
 		i++;
 	}
 	
