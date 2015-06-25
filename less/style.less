@@ -14,9 +14,9 @@
 }
 #login_pas{
 	margin-top:20px;
-}
-#login_pas div{
-	float:left;
+	div{
+		float:left;
+	}
 }
 .LP{
 	margin-left:30px;
@@ -39,6 +39,7 @@ body{
 	margin:0px;
 }
 #mainPage{
+	z-index:10;
 	background-size:cover;
 	background-repeat:no-repeat;
 	background-attachment:fixed;
@@ -77,8 +78,10 @@ body{
 	height:295px;
 	width:220px;
 }
-#filmImgBox2 img{
-	width:205px;
+#filmImgBox2 {
+	img{
+		width:205px;
+	}
 }
 .infTabActList{
 	float:left;
@@ -106,6 +109,7 @@ body{
     background: -webkit-gradient(linear, left top, left bottom, from(@color + #151515), to(@color - #151515));
     background: -moz-linear-gradient(top,  @color + #151515,  @color - #151515);
 	cursor:pointer; 
+	height:910px;
 	width:87px;
 }
 #prev{
@@ -114,10 +118,6 @@ body{
 }
 #menuTable{
 	background:@colMenuTable;
-	/*width:1100px;*/
-	/*margin:0 auto;*/
-	/*position:relative;
-	left:620px;*/
 	height:70px;
 }
 #mTable{
@@ -143,13 +143,9 @@ body{
 	float:left;
 }
 .pageNumAllAct{
-	/*text-align:center;
-	width:15px;
-	text-decoration:underline;
-	cursor:pointer;*/
 	background:@colorRed;
 }
-#search_text{
+.floatL[type='text']{
 	width:300px;
 }
 .photoblock{
@@ -213,40 +209,55 @@ body{
 	background-color:black;
 	position:absolute;
 	left:95px;
+	div{
+		color:@colorWhite;
+		position:relative;
+		display:none;
+		div{
+			text-align:center;
+		}
+		div:hover{
+			background-color:@colorWhite;
+			color:@colorBlack;
+		}
+	}
+	span{
+		padding-left:31px;
+		font-size:18px;
+	}
 }
-.starsReyt div{
-	color:@colorWhite;
-	position:relative;
+.dImg{
+	position:absolute;z-index:15;
+}
+.dImgR{
+	left:98%;
+}
+.scroll-text {
+	border: 1px solid red;
+	width: 610px;
+	height: 100px;
+	overflow: hidden;
+	ul {
+		width: 600px;
+		height: 100px;
+		overflow: hidden;
+		margin: 0;
+		li {
+			height: 30px;
+			width:590px;
+			z-index:0;
+			font-size:17px;
+		}
+	}
+} 
+.rssLR{
 	display:none;
-	
-}
-.starsReyt div div:hover{
-	background-color:@colorWhite;
-	color:@colorBlack;
-}
-.starsReyt div div{
-	text-align:center;
-}
-.starsReyt span{
-	padding-left:31px;
-	font-size:18px;
-}
-#rssLeft,#rssRight{
 	width:0px;
 	height:77px;
 	float:left;
 	background-color:@colorBlack;
 	color:@colorWhite;
 	margin-left:5px;
-	/*background-image: url(../images/system/f-t.png) no-repeat;*/
-	/*background-size:cover;*/
-	/*background-repeat:no-repeat;
-	background-attachment:fixed;
-	background-image:url(../images/system/f-t_cr2.png);*/
-}
-#rssLeft a:visited,#rssLeft a:active,#rssLeft a{
-	color:@colorWhite;
-	text-decoration:underline;
 }
 #rssRight{
 	left:100%;
@@ -259,24 +270,6 @@ body{
 	float:left;
 }
 /* ************************************************** */
-.scroll-text {
-	border: 1px solid red;
-	width: 610px;
-	height: 100px;
-	overflow: hidden;
-}
-.scroll-text ul {
-	width: 600px;
-	height: 100px;
-	overflow: hidden;
-	margin: 0;
-}
-.scroll-text ul li {
-	height: 30px;
-	width:590px;
-	z-index:0;
-	font-size:17px;
-}
 .RSSButton{
 	position:absolute;
 	width:140px;
@@ -295,10 +288,10 @@ body{
 	display:flex;
 }
 .d2{
-	width:100px; float:left; font-size:14px;
+	width:200px; float:left; font-size:14px;
 }
 .d3{
-	margin-left:100px; height:10px; width:0px; background-color:@colorGraphCateg; margin-bottom:3px;box-shadow:2px 2px 2px @colorGraphCateg;
+	/*margin-left:100px;*/ height:10px; width:0px; background-color:@colorGraphCateg; margin-bottom:3px;box-shadow:2px 2px 2px @colorGraphCateg;
 }
 .nameCat{
 	font-size:12px; margin-left:10px;
@@ -319,12 +312,6 @@ body{
 	top:300px;
 	left:400px;
 }
-
-#add_film_main{
-
-	
-}
-
 #add_film{
 	float:left;
 	padding-left:15px;
@@ -357,18 +344,6 @@ a:hover{
 	color:red;
 }
 
-#loginPas{
-	/*background: url(pictures/Papel-de-Parede-Marvel-Super-Herois-Simbolos.jpg) repeat-y #fc0;*/
-	/*background: url(pictures/marvel-faces.jpg) no-repeat;*/
-	/*background: url(pictures/mstiteli.jpg) no-repeat;*/
-}
-/*
- @media screen and (min-device-width: 1280px) {
-    div {width: 1366px;}
-}
-@media screen and (min-device-height: 768px){
-	div {height: 768px;}
-}*/
 .textCss{
 	height:22px; 
 	width:170px;
@@ -404,13 +379,6 @@ a:hover{
 	width:50px;
 	height:50px;
 }
-
-.page{
-	/*background-image:url(http://localhost:8008/pictures/background.jpg); 
-	background-repeat: no-repeat; 
-	background-attachment:fixed;*/
-}
-
 .autorise{
 	background-color:#6791CD;
 	width:325px;
