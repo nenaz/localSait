@@ -105,29 +105,6 @@ function varToParamGl(arr){//заполнение глобальных пара�
 	}
 	opt.arrCountFilmsOfCategory = arrcountFOC;
 }
-/*
-function afterCreate(){//отрисовка страницы средствами JS
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function(){
-		if(xhttp.status==200 && xhttp.readyState==4){
-			rezult = xhttp.responseXML;
-			varToParamGl(picturesCountXY(rezult, opt));
-			navPages(opt.getpageCount(), opt.getpage());
-			createCategorySelect(opt.getarrCategory(),opt.getselectedIndex());
-			createSearchText(opt.getsearchText());
-			go_menu('admin');
-			var cl = document.documentElement.clientWidth/2;
-			$('#mTable').css({'position':'relative', 'left':cl});
-		}
-	}
-	xhttp.open('POST', 'menuNew.php', true);
-	xhttp.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-	xhttp.send();
-}*//*
-$(window).resize(function(){
-  //alert("Stop it!");
-  opt.setpageW()
-});*/
 
 function afterCreate(){
 	$.ajax({
@@ -144,7 +121,7 @@ function afterCreate(){
 				createCategorySelect(opt.getarrCategory(),opt.getselectedIndex());
 				createSearchText(opt.getsearchText());
 				go_menu('admin');
-				var cl = document.documentElement.clientWidth/2;
+				var cl = doc.documentElement.clientWidth/2;
 				$('#filmsPage').css({'width':opt.getpageW()});
 				$('#mainPage').css({'width':screen.width});
 				$('#menuTable').css({'width':screen.width});
@@ -261,7 +238,7 @@ function xhttpRequest(documentGetElementByIdInnerHTML, pagePHP, str){
 				}
 				else{
 					$(documentGetElementByIdInnerHTML).css({'paddingLeft':'0'});
-					document.getElementById(documentGetElementByIdInnerHTML).innerHTML=xhttp.responseText;
+					doc.getElementById(documentGetElementByIdInnerHTML).innerHTML=xhttp.responseText;
 					//$(documentGetElementByIdInnerHTML).val(xhttp.responseText);
 				}
 			//setTimeout(function(){document.getElementById(documentGetElementByIdInnerHTML).innerHTML='';},3000);
@@ -323,12 +300,12 @@ function go_page(th, pPage, PR){
 }
 
 function none(alternativeName){
-	document.getElementById(alternativeName).style.display = 'none';
+	doc.getElementById(alternativeName).style.display = 'none';
 }
 
 function view_film(number){
 	var alternativeName = 'alternativeName_'+number;
-	var name = document.getElementById(alternativeName).innerText;
+	var name = doc.getElementById(alternativeName).innerText;
 }
 
 function getRandomInt(min, max){
@@ -344,16 +321,15 @@ function view_film2(number, altName, exeName){//обработка данных 
 	var text_button = '';
 	var name='';
 	var jBool = false;
-	if( document.getElementById(alternativeName) ===null){
+	if( doc.getElementById(alternativeName) ===null){
 		name = altName;
 		jBool = true;
 	}
-	else name = document.getElementById(alternativeName).innerText;
-	//if(name=='')name = document.getElementById('name').innerText;
+	else name = doc.getElementById(alternativeName).innerText;
 	var exeN = '';
-	if( document.getElementById('exeName') ===null)
+	if( doc.getElementById('exeName') ===null)
 		exeN = exeName;
-	else exeN = document.getElementById('exeName').innerText;
+	else exeN = doc.getElementById('exeName').innerText;
 	var fileName = '_film.bat';//getRandomInt(1000000, 9999999)+'.bat';
 	xhttp=new XMLHttpRequest();
 	xhttp.onreadystatechange=function(){
@@ -362,23 +338,19 @@ function view_film2(number, altName, exeName){//обработка данных 
 			if(jBool == false){
 				var view = 'view_film'+number;
 				var alternativeName = 'hh'+number;
-				document.getElementById(alternativeName).style.display = 'inline';
+				doc.getElementById(alternativeName).style.display = 'inline';
 				textFileBat(jBool, text_button, view, alternativeName);
 				switch(text_button){
-					case '1':document.getElementById(view).value = con1;
-						document.getElementById(alternativeName).href = fileName;
+					case '1':doc.getElementById(view).value = con1;
+						doc.getElementById(alternativeName).href = fileName;
 					break;
-					case '2':document.getElementById(view).value = con2;break;
-					case '3':document.getElementById(view).value = con3;
-						document.getElementById('butFT').style.display = 'inline';
+					case '2':doc.getElementById(view).value = con2;break;
+					case '3':doc.getElementById(view).value = con3;
+						doc.getElementById('butFT').style.display = 'inline';
 					break;
 				}
 			}else{
 				var bText = '';
-				//var message = $("<a href='' id='fBat'><img  class='dImg2'  id='view_film'/></a>");
-				//$('#bF').parent().append(message);
-				//$('#bF').hide();
-				//$('#fBat').attr({'href': fileName});
 				switch(text_button){//src='/images/system/download.png'
 					case '1':
 						var message = $("<a href='' id='fBat'><img  class='dImg2'  id='view_film'/></a>");
@@ -410,48 +382,12 @@ function view_film2(number, altName, exeName){//обработка данных 
 	xhttp.send(str);
 }
 
-function del(number){
-	switch (number){
-		case '1' : 
-			document.getElementById('view_film1').style.display = "inline";
-			document.getElementById('view_film2').style.display = "none";
-			document.getElementById('view_film3').style.display = "none";
-			document.getElementById('view_film4').style.display = "none";
-			document.getElementById('view_film5').style.display = "none";
-		break;
-		case '2' : document.getElementById('view_film1').style.display = "none";
-			document.getElementById('view_film2').style.display = "inline";
-			document.getElementById('view_film3').style.display = "none";
-			document.getElementById('view_film4').style.display = "none";
-			document.getElementById('view_film5').style.display = "none";
-		break;
-		case '3' : document.getElementById('view_film1').style.display = "none";
-			document.getElementById('view_film2').style.display = "none";
-			document.getElementById('view_film3').style.display = "inline";
-			document.getElementById('view_film4').style.display = "none";
-			document.getElementById('view_film5').style.display = "none";
-		break;
-		case '4' : document.getElementById('view_film1').style.display = "none";
-			document.getElementById('view_film2').style.display = "none";
-			document.getElementById('view_film3').style.display = "none";
-			document.getElementById('view_film4').style.display = "inline";
-			document.getElementById('view_film5').style.display = "none";
-		break;
-		case '5' : document.getElementById('view_film1').style.display = "none";
-			document.getElementById('view_film2').style.display = "none";
-			document.getElementById('view_film3').style.display = "none";
-			document.getElementById('view_film4').style.display = "none";
-			document.getElementById('view_film5').style.display = "inline";
-		break;
-	}
-}
-
 function pic_copy(){
 	var host = '192.168.1.89';
 	var port = '8008'+'/';
 	var main_folder = '';
 	var folder1 = 'pictures'+'/';
-	var pic_file = document.getElementById('pic_file').value;
+	var pic_file = doc.getElementById('pic_file').value;
 	var i=pic_file.indexOf('fakepath');
 	if(i>-1){
 		var pic_file = pic_file.substring(i+9,pic_file.length);
@@ -473,150 +409,14 @@ function pic_copy(){
 	return path_pic;
 }
 
-function infocus(w){
-	w.value='';
-}
-
-function notfocus(w){
-	/*var str=w.defaultValue;
-	switch (str){
-		case 'Название фильма': if(w.value=='')w.value = w.defaultValue;break;
-		case 'Год выхода': if(w.value=='')w.value = w.defaultValue;break;
-		case 'Страна': if(w.value=='')w.value = w.defaultValue;break;
-		case 'Режиссер': if(w.value=='')w.value = w.defaultValue;break;
-		case 'Жанр': if(w.value=='')w.value = w.defaultValue;break;
-		case 'Время': if(w.value=='')w.value = w.defaultValue;break;
-		case 'Возрастная категория': if(w.value=='')w.value = w.defaultValue;break;
-		case 'Премьера': if(w.value=='')w.value = w.defaultValue;break;
-	}*/
-}
-
-function make_change(func, n, i){
-	var str = '';
-	switch (func){
-		case 'add_acter':{
-			var name_acter = document.getElementById('name_acter').value;
-			var name_eng = document.getElementById('name_eng').value;
-			var dateA = document.getElementById('dateA').value;
-			str = 'name_acter='+name_acter+'&name_eng='+name_eng+'&dateA='+dateA;
-		}
-		break;
-		case 'add_film_acter_edit':{
-			var name1 = document.getElementById('name1').value;
-			var name2 = document.getElementById('name2').value;
-			var name3 = document.getElementById('name3').value;
-			var name4 = document.getElementById('name4').value;
-			var name5 = document.getElementById('name5').value;
-			var name6 = document.getElementById('name6').value;
-			var name7 = document.getElementById('name7').value;
-			var name8 = document.getElementById('name8').value;
-			var name9 = document.getElementById('name9').value;
-			var name10 = document.getElementById('name10').value;
-			var nameF = document.getElementById('nameF').value;
-			str = 'name1='+name1+'&name2='+name2+'&name3='+name3+'&name4='+
-			name4+'&name5='+name5+'&name6='+name6+'&name7='+name7+
-			'&name8='+name8+'&name9='+name9+'&name10='+name10+'&nameF='+nameF;
-		}
-		break;
-		case 'add_film':{
-			var name_film = document.getElementById('name_film').value;
-			var name_eng = document.getElementById('name_eng').value;
-			var year_film = document.getElementById('year_film').value;
-			var country_film = document.getElementById('country_film').value;
-			var director = document.getElementById('director').value;
-			var genre = document.getElementById('genre').value;
-			var total_time = document.getElementById('total_time').value;
-			var age = document.getElementById('age').value;
-			var premiere = document.getElementById('premiere').value;
-			var other = document.getElementById('other').value;
-			path_pic = pic_copy();
-			str = 'name_film='+name_film+'&name_eng='+name_eng+'&year_film='+year_film+'&country_film='+
-			country_film+'&director='+director+'&genre='+genre+'&total_time='+total_time+
-			'&age='+age+'&premiere='+premiere+'&other='+other+'&path_pic='+path_pic;
-		}
-		break;
-		case 'add_film_excel':{
-			//var nd = 'dv'+n
-			//if(n==100 || n==200 || n==300 || n==400)alert(n);
-			//var name_film = document.getElementById(nd).value;
-			var n1n2 = n;//document.all.test_div.childNodes[n-1].innerHTML;
-			var nRnE = n1n2.split('$');
-			//alert(nRnE);
-			var name_film = nRnE[0];//document.all.test_div.childNodes[n-1].innerHTML;
-			var name_eng = nRnE[1];
-			var year_film = nRnE[2];
-			var country_film = nRnE[3];
-			var director = nRnE[4];
-			var genre = nRnE[5];
-			var total_time = nRnE[6]+' мин.';
-			var age = '';
-			var premiere = '';
-			var other = '';
-			path_pic = '';
-			str = 'name_film='+name_film+'&name_eng='+name_eng+'&year_film='+year_film+'&country_film='+
-			country_film+'&director='+director+'&genre='+genre+'&total_time='+total_time+
-			'&age='+age+'&premiere='+premiere+'&other='+other+'&path_pic='+path_pic;
-		}
-		break;
-	}
-	
-	xhttp=new XMLHttpRequest();
-	xhttp.onreadystatechange=function(){
-	   if (xhttp.readyState==4 && xhttp.status==200){
-			if(document.getElementById('fucn_result')!=null)document.getElementById('fucn_result').innerHTML=xhttp.responseText;
-			switch(func){
-				case 'add':{
-					document.getElementById('name_film').value="Название фильма";
-					document.getElementById('name_eng').value="Оригинальное название";
-					document.getElementById('year_film').value="Год выхода";
-					document.getElementById('country_film').value="Страна";
-					document.getElementById('director').value="Режиссер";
-					document.getElementById('genre').value="Жанр";
-					document.getElementById('total_time').value="Время";
-					document.getElementById('age').value="Возрастная категория";
-					document.getElementById('premiere').value="Премьера";
-					document.getElementById('other').value='';
-				}
-				break;
-			}
-		 }
-	   }
-	xhttp.open('POST',opt.getAddDelPagePhp(),true);
-	xhttp.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-	var str=str+'&func='+func;
-	xhttp.send(str);
-}
-
 function editingInfo(func,w){
 	var viewEdit='';
 	xhttp=new XMLHttpRequest();
 	xhttp.onreadystatechange=function(){
 		if (xhttp.readyState==4 && xhttp.status==200){
 			switch(func){
-				case 'add_film_acter_edit':
-					document.getElementById('add_film_main_edit').innerHTML=xhttp.responseText;	
-					//document.getElementById('add_film_main_edit').style.display = 'none';	
-					
-				break;
-				case 'add_acter':
-					document.getElementById('add_acter').innerHTML=xhttp.responseText;	
-					//document.getElementById('add_film_main_edit').style.display = 'none';	
-					
-				break;
-				case 'add_acter_view':
-					document.getElementById('add_film_main2').innerHTML=xhttp.responseText;	
-					//document.getElementById('add_film_main_edit').style.display = 'none';	
-					
-				break;
-				case 'add_acter_edit':
-					document.getElementById('add_film_main2').innerHTML=xhttp.responseText;	
-					//document.getElementById('add_film_main_edit').style.display = 'none';	
-					
-				break;
 				default:{
-					document.getElementById('add_film_main').innerHTML=xhttp.responseText;
-					//document.getElementById('add_film_main').style.display = 'none';
-					//jq_pr();
+					doc.getElementById('add_film_main').innerHTML=xhttp.responseText;
 				}
 			}
 		}
@@ -634,7 +434,6 @@ function editingInfo(func,w){
 function clearHTML(){
 	document.getElementById('add_film_main_edit').innerHTML = '';
 	document.getElementById('add_film_main').innerHTML = '';
-	//go_action('add','film_acter');
 }
 
 function cl(value, name){
@@ -643,89 +442,24 @@ function cl(value, name){
 
 function go_action(func, scheme, w, page, param){
 	switch(func){
-		case 'add':{
-			switch (scheme){
-				case 'film': {
-					document.getElementById('add_film_main_edit').innerHTML = '';
-					editingInfo(func+'_'+scheme);
-				}
-				break;
-				case 'film_acter_edit': {
-					//if(document.getElementById('add_film_main').innerText!='')document.getElementById('add_film_main').innerHTML = '';
-					editingInfo(func+'_'+scheme,w);
-				}
-				break;
-				case 'film_acter': {
-					//if(document.getElementById('add_film_main').innerText!='')document.getElementById('add_film_main').innerHTML = '';
-					editingInfo(func+'_'+scheme);
-				}
-				break;
-				case 'acter_view': {
-					editingInfo(func+'_'+scheme);
-				}
-				break;
-				case 'acter_view_edit': {
-					//editingInfo(func+'_'+scheme);
-					if(document.getElementById('names')){
-						var ft = document.getElementById('names');
-						for(var i=0; i<ft.children.length; i++){
-							var ftCh = ft.children[i];
-							if(ftCh.tagName == 'INPUT' && ftCh.type=='text'){
-								if(ftCh.value==w.innerText)break;
-								if(ftCh.value == '' || ftCh.value == 'Имя актера') {
-									ftCh.value = w.innerText;
-									w.readOnly
-									break;
-								}
-							}
-						}
-					}
-				}
-				break;
-				case 'acter': //document.getElementById('add_film_main').style.display = 'none';
-					editingInfo(func+'_'+scheme);
-				break;
-			}
-		}
-		break;
-		case 'edit':{
-			switch (scheme){
-				case 'film': document.getElementById('add_film_main').style.display = 'inline';
-				break;
-				case 'acter': document.getElementById('add_film_main').style.display = 'none';
-				break;
-			}
-		}
-		break;
 		case 'delete':{
 			switch (scheme){
-				case 'film': //document.getElementById('add_film_main').style.display = 'inline';
+				case 'film':
 					var str = 'filmName='+param+'&id='+w+'&func='+func+'_'+scheme;
 					xhttpRequest('',opt.getAddDelPagePhp(), str);
 					xhttpRequest('filmsPage', opt.getmenuPagePhp(), 'page='+page);
 				break;
-				case 'acter': document.getElementById('add_film_main').style.display = 'none';
-				break;
 			}
 		}
-		break;
-		case 'exit': document.location.replace("index.php");
-		break;
-		case 'clear':
-			document.getElementById('add_film_main_edit').innerHTML = '';
-			document.getElementById('add_film_main').innerHTML = '';
-			document.getElementById('add_acter').innerHTML = '';
 		break;
 		case 'prev':
 			$('#prev').removeAttr('disabled');
 			$('#forv').removeAttr('disabled');
 			prevPage = page;
 			go_page(w, page, 'P');
-			//document.location.replace("main.html");
 		break;
 		case 'synchronization':{
 			if(scheme=='undefined' || scheme==''){
-				//param = convert(param);
 				scheme = param;
 			}
 			var str = 'filmName='+scheme+'&id='+w;
