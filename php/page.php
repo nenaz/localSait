@@ -25,21 +25,24 @@
 	$page_count = substr($page_count,0,$r);
 	if($ost>0)$page_count++;}
 	$i=0;
+	if(isset($_POST['pageH'])) $pageH = $_SESSION['pageH'] = $_POST['pageH'];
+	else  $pageH = $_SESSION['pageH'];
+	if(isset($_POST['pageW'])) $pageW = $_SESSION['pageW'] = $_POST['pageH'];
+	else  $pageW = $_SESSION['pageW'];
 ?>
-<div id="pageF">
-	<table>
+<div id="pageF" >
+	<div class="table">
 	<?php
 	while($row = mysqli_fetch_row($res)){
 		$i++;
 	?>
-		<tr><td>
-		<div id="ViewFilmInfo<?php echo '_'.$i;?>">
-			<input id="back" type="button" value="Назад" onclick="go_action('prev', '', '', <?php echo $page;?>);" style="width:<?php echo $_SESSION['pageW']-10;?>px;"/><br/>
+		<div class="ViewFilmInfo" style="height:<?php echo $pageH;?>px;">
+			<input id="back" type="button" style="width:<?php echo $pageW;?>px;" value="Назад" onclick="go_action('prev', '', '', <?php echo $page;?>);"/><br/>
 			<input type="button" id="sin" value="Синхронизация с КИНОПОИСК" onclick="go_action('synchronization', '<?php echo $row[12]?>', '<?php echo $row[0]?>', '<?php echo $page;?>', '<?php echo $row[1]?>');"/>
 			<input id="butFT" type="button" value="Попытаться скачать с FastTorrent.ru" onclick="go_action('downloadFT', 'film', '<?php echo $row[12]?>', '<?php echo $page;?>', '<?php echo $row[4]?>');"/>
 			<div id="downloadLink"></div>
 			<input id="delete" type="button" value="Удалить к херам" onclick="go_action('delete', 'film', '<?php echo $row[0]?>', '<?php echo $page;?>', '<?php echo $row[1]?>');"/>
-			<br/><div id="headerFilm">
+			<div id="headerFilm">
 				<h1 id="name"><?php echo $row[1]?></h1>
 				<span id="alternativeName<?php echo '_'.$i;?>"><?php echo $row[12]?></span>
 				<div>
@@ -62,15 +65,14 @@
 				<!-- отрисовка актеров конец-->
 			</div><br/>
 		</div>
-		</td></tr>
-		<tr><td>
+		<div class="tr"><div class="td">
 			<div id="description">
 			<?php echo $row[9];?>
 			</div>
-		</td></tr>
-		<tr><td class="tdNull"></td></tr>
+		</div></div>
+		<!--div class="tr"><div class="td tdNull"></div></div-->
 	<?php
 	}
 	?>
-	</table>
+	</div>
 </div>

@@ -122,33 +122,15 @@ function afterCreate(){
 				createSearchText(opt.getsearchText());
 				go_menu('admin');
 				var cl = doc.documentElement.clientWidth/2;
-				$('#filmsPage').css({'width':opt.getpageW()});
+				$('.buttonM').css({'height':opt.pageH});
+				/*$('#filmsPage').css({'width':opt.getpageW()});
 				$('#mainPage').css({'width':screen.width});
-				$('#menuTable').css({'width':screen.width});
+				$('#menuTable').css({'width':screen.width});*/
 				$('#mTable').css({'margin':'auto'});
 				addEvents();
 				setTimeout('drawCategory()', 1000);
+				setTimeout('drawChart()', 1000);
 			}
-	});
-}
-
-function addEvents(){
-	var getElement = doc.getElementsByTagName('img')[0];//rss FT
-	getElement.addEventListener('click', function(){showRssFT(this);}, false);
-	getElement = doc.getElementsByTagName('img')[1];//rss KP
-	getElement.addEventListener('click', function(){showRssKP(this);}, false);
-	$('#search_text').on('keydown', function(){//текстовое поле поиска ENTER
-		checkKey(event, 'search');
-	});	
-	doc.getElementById('searchSelect').addEventListener('change', category, false);//выбор категории фильма
-	$('[value="Поиск"]').on('click', function(){//кнопка поиска фильма
-		search();
-	});
-	$('#prev').on('click', function(){//кнопка Назад
-		go_page('', '-1');
-	});
-	$('#forv').on('click', function(){//кнопка Вперед
-		go_page('', '1');
 	});
 }
 
@@ -196,17 +178,6 @@ function showRssKP(th){//RSS с кинопоиска
 	});
  }  
  /* RSS */
-
-function setReyt(th, num){//получить рейтинг для фильма
-	var id= $(th).closest('.photoblock').find('.filmPoster').attr('id');//получить id фильма
-	var str = 'id='+id+'&num='+num+'&func=updateReyt';//строка для отправки в php
-	$(th).closest('.iDiv').find('#dig').text(num);//обновление оценки фильма
-	xhttpRequest('', opt.getAddDelPagePhp(), str);//отправка запроса к php
-	$(th).closest('.starsReyt').animate({//спрятать div с оценкой
-									'height':0,
-									'top':0
-								}).find('div').hide(300);
-}
 
 function viewFilm(th, pPage){
 	$('#prev').attr('disabled', 'disabled');
@@ -330,7 +301,7 @@ function view_film2(number, altName, exeName){//обработка данных 
 	if( doc.getElementById('exeName') ===null)
 		exeN = exeName;
 	else exeN = doc.getElementById('exeName').innerText;
-	var fileName = '_film.bat';//getRandomInt(1000000, 9999999)+'.bat';
+	var fileName = '../php/_film.bat';//getRandomInt(1000000, 9999999)+'.bat';
 	xhttp=new XMLHttpRequest();
 	xhttp.onreadystatechange=function(){
 	   if (xhttp.readyState==4 && xhttp.status==200){
@@ -599,7 +570,7 @@ function go_menu(menu){
 			document.getElementById('filmsPage').innerHTML=xhttp.responseText;
 			//document.getElementById('mainPage').style.height=''+document.body.clientHeight+'px';
 			//document.getElementById('mainPage').style.height=''+screen.height+'px';
-			document.getElementById('filmsPage').style.height=''+screen.height+'px';
+			//document.getElementById('filmsPage').style.height=''+screen.height+'px';
 		 }
 	   }
 	//xhttp.open('POST','menu.php',true);
