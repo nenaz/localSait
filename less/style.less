@@ -97,13 +97,11 @@ body{
 	margin-left:100px;
 	float:left;
 }
-#exeName{
-	display:none;
-}
 #photoblock{
 	float:left;
 	height:295px;
 	width:220px;
+	margin:5px;
 }
 #filmImgBox2 {
 	img{
@@ -117,13 +115,10 @@ body{
 #infoTable{
 	width:440px;
 }
-#actorList{
-	width:150px;
-}
 #description{
 	float:left;
 	text-align:justify;
-	width:825px;
+	margin-top:5%;
 	padding:10px;
 }
 .tdNull{
@@ -142,6 +137,8 @@ body{
 #filmsPage{
 	float:left;font-size:0px;
 	width:68.75%;
+	opacity:.9;
+	/*min-width:720px;*/
 }
 #prev{
 	/*margin-right:15px; */
@@ -348,6 +345,60 @@ body{
 #back{
 	height:4.53125%;
 	min-height:60px;
+}
+.pageButDiv{
+	width:100%;
+	min-height:50px;
+	
+}
+
+#headerFilm{
+	span{
+		display:block;
+	}
+	span:last-child{
+		display:none;
+	}
+}
+#exeName{
+	display:none;
+}
+#alternativeName{
+	margin-left:5px;
+}
+#name{
+	height:40px;
+	text-align:center;
+	font-size:2em;
+}
+.infTabZagList{
+	width:45%;
+	float:left;
+}
+.infTabZagList>div:first-child{
+	float:left;
+}
+.infoTableZg{
+	width:138px;
+	height:28px;
+}
+.infoTableZn, .acterList{
+	height:28px;
+}
+.infoTableZn{
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.link{
+	float:left;
+}
+.acterList{
+	text-align:right;
+	padding-right:10px;
+}
+.infTabActList{
+	width:23%;
 }
 /* page.php конец*/
 .cl1{

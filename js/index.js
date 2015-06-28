@@ -127,6 +127,7 @@ function afterCreate(){
 				$('#mainPage').css({'width':screen.width});
 				$('#menuTable').css({'width':screen.width});*/
 				$('#mTable').css({'margin':'auto'});
+				//document.cookie='resolution='+Math.max(screen.width,screen.height)+'; path=/';
 				addEvents();
 				setTimeout('drawCategory()', 1000);
 				setTimeout('drawChart()', 1000);
@@ -180,8 +181,10 @@ function showRssKP(th){//RSS с кинопоиска
  /* RSS */
 
 function viewFilm(th, pPage){
-	$('#prev').attr('disabled', 'disabled');
-	$('#forv').attr('disabled', 'disabled');
+	//$('#prev').attr('disabled', 'disabled');
+	//$('#forv').attr('disabled', 'disabled');
+	$('#prev').css({'visibility':'hidden'});
+	$('#forv').css({'visibility':'hidden'});
 	var str = 'id='+th.id+'&pPage='+pPage;
 	xhttpRequest('filmsPage', opt.getpagePagePhp(), str);
 	$('#pageF').css({width:opt.getpageW()});
@@ -202,8 +205,10 @@ function xhttpRequest(documentGetElementByIdInnerHTML, pagePHP, str){
 					$(documentGetElementByIdInnerHTML).val(xhttp.responseText);
 				}
 				else if(documentGetElementByIdInnerHTML=='mainpage'){
-					$('#prev').removeAttr('disabled');
-					$('#forv').removeAttr('disabled');
+					//$('#prev').removeAttr('disabled');
+					//$('#forv').removeAttr('disabled');
+					$('#prev').css({'visibility':'visible'});
+					$('#forv').css({'visibility':'visible'});
 					$('#filmsPage').css({'padding-right':0});
 					window.scrollTo(0,0);
 				}
@@ -283,24 +288,24 @@ function getRandomInt(min, max){
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function view_film2(number, altName, exeName){//обработка данных для генерации bat файла
+function pageViewFilm(number, altName, exeName){//обработка данных для генерации bat файла
 	var con1 = 'Скачать для просмотра в папку '+filmsPath;
 	var con2 = 'Ошибка генерации файла';
 	var con3 = 'Фильм еще не скачан';
 	var con4 = 'Сохранить в папку '+filmsPath;
-	var alternativeName = 'alternativeName_'+number;
+	var alternativeName = altName;
 	var text_button = '';
 	var name='';
 	var jBool = false;
-	if( doc.getElementById(alternativeName) ===null){
+	if( doc.getElementById('alternativeName') === null){
 		name = altName;
 		jBool = true;
 	}
-	else name = doc.getElementById(alternativeName).innerText;
+	else name = altName;//doc.getElementById(alternativeName).innerText;
 	var exeN = '';
-	if( doc.getElementById('exeName') ===null)
+	//if( doc.getElementById('exeName') ===null)
 		exeN = exeName;
-	else exeN = doc.getElementById('exeName').innerText;
+	//else exeN = doc.getElementById('exeName').innerText;
 	var fileName = '../php/_film.bat';//getRandomInt(1000000, 9999999)+'.bat';
 	xhttp=new XMLHttpRequest();
 	xhttp.onreadystatechange=function(){
@@ -310,7 +315,7 @@ function view_film2(number, altName, exeName){//обработка данных 
 				var view = 'view_film'+number;
 				var alternativeName = 'hh'+number;
 				doc.getElementById(alternativeName).style.display = 'inline';
-				textFileBat(jBool, text_button, view, alternativeName);
+				//textFileBat(jBool, text_button, view, alternativeName);
 				switch(text_button){
 					case '1':doc.getElementById(view).value = con1;
 						doc.getElementById(alternativeName).href = fileName;
@@ -424,8 +429,10 @@ function go_action(func, scheme, w, page, param){
 		}
 		break;
 		case 'prev':
-			$('#prev').removeAttr('disabled');
-			$('#forv').removeAttr('disabled');
+			//$('#prev').removeAttr('disabled');
+			//$('#forv').removeAttr('disabled');
+			$('#prev').css({'visibility':'visible'});
+			$('#forv').css({'visibility':'visible'});
 			prevPage = page;
 			go_page(w, page, 'P');
 		break;
