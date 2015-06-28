@@ -37,24 +37,24 @@
 		$i++;
 	?>
 		<div class="ViewFilmInfo" style="height:<?php echo $pageH;?>px;">
-			<input id="back" type="button" style="width:<?php echo $pageW;?>px;" value="Назад" onclick="go_action('prev', '', '', <?php echo $page;?>);"/><br/>
+			<input id="back" type="button" style="width:100%;" value="Назад" onclick="go_action('prev', '', '', <?php echo $page;?>);"/><br/>
+			<div class="pageButDiv">
 			<input type="button" id="sin" value="Синхронизация с КИНОПОИСК" onclick="go_action('synchronization', '<?php echo $row[12]?>', '<?php echo $row[0]?>', '<?php echo $page;?>', '<?php echo $row[1]?>');"/>
 			<input id="butFT" type="button" value="Попытаться скачать с FastTorrent.ru" onclick="go_action('downloadFT', 'film', '<?php echo $row[12]?>', '<?php echo $page;?>', '<?php echo $row[4]?>');"/>
 			<div id="downloadLink"></div>
 			<input id="delete" type="button" value="Удалить к херам" onclick="go_action('delete', 'film', '<?php echo $row[0]?>', '<?php echo $page;?>', '<?php echo $row[1]?>');"/>
+			</div>
 			<div id="headerFilm">
-				<h1 id="name"><?php echo $row[1]?></h1>
-				<span id="alternativeName<?php echo '_'.$i;?>"><?php echo $row[12]?></span>
-				<div>
-					<span id="exeName"><?php if($row[13]!='undefined')echo $row[13];?></span>
-				</div>
+				<span id="name"><?php echo $row[1]?></span>
+				<span id="alternativeName"><?php echo $row[12]?></span>
+				<span id="exeName"><?php if($row[13]!='undefined')echo $row[13];?></span>
 			</div>
 			<div id="photoblock">
 				<div id="filmImgBox2">
 					<img src="<?php echo $row[11];?>"/>
 				</div>
 			</div>
-			<div id="infoTable" class="infTabActList">
+			<div class="infTabZagList">
 				<!-- отрисовка заголовков описания начало-->
 				<?php include('drawTableZagol_inc.php');?>
 				<!-- отрисовка заголовков описания конец-->
@@ -63,13 +63,15 @@
 				<!-- отрисовка актеров начало-->
 				<?php include('drawActer_inc.php');?>
 				<!-- отрисовка актеров конец-->
-			</div><br/>
-		</div>
-		<div class="tr"><div class="td">
+			</div>
+			<div class="link">	
+				<span onclick="pageViewFilm('<?php echo $i;?>', '<?php echo $row[12]?>', '<?php if($row[13]!='undefined')echo $row[13];?>');" style="text-decoration:underline;cursor:pointer;">сгенерить кнопку для просмотра</span>
+				<a href="" id="hh<?php echo $i;?>" style="display:none;"><input type="button" id="view_film<?php echo $i;?>"/></a>
+			</div>
 			<div id="description">
 			<?php echo $row[9];?>
 			</div>
-		</div></div>
+		</div>
 		<!--div class="tr"><div class="td tdNull"></div></div-->
 	<?php
 	}

@@ -76,49 +76,53 @@
         $page_count = substr($page_count,0,$r);
         if($ost>0)$page_count++;}
         $i=0;
-        ?>
-        <div id="page" style="height:<?php echo $pageH;?>px; width:<?php echo $pageW;?>px; margin-right:15px;">
-                <div id="filmImgBox">
-                        <?php $i=0;
-                        while($row = mysqli_fetch_array($res)){
-                                $i++;
-                        ?>
-                                <div class="photoblock" id="photoblock<?php echo '_'.$i;?>" style="<?php
-                                        $nameF = FILMS_PATH.str_replace(" ", "_", $row[12]).$row[13];
-                                        if((!file_exists($nameF)) && (!file_exists(mb_convert_encoding($nameF, 'Windows-1251', 'UTF-8')))){
-                                                echo "bacground-color:red;";
-                                        }
-										?>">
-                                                <img class="filmPoster" id="<?php echo $row[0];?>" onclick="viewFilm(this, <?php echo $page;?>);" exeName="<?php echo $row['exe'];?>" title="<?php echo $row['name_eng'];?>" src="<?php echo $row[11];?>"/>
-                                                <div class="iDiv" onmouseenter="openPlay(this);" onmouseleave="closePlay(this);">
-                                                        <img class="dImgSmall dImgSmallPlay" src="/images/system/play.png"/>
-                                                        <img class="dImgSmall" src="/images/system/information.png"/>
-                                                        <img class="dImgSmall" src="/images/system/star.png"/>
-                                                        <span id="dig" class="dImgSmallStars"><?php echo $row['reyting'];?></span>
-                                                        <div class="dImgSmall dimgSmallStarsReyt">
-                                                                <div>
-                                                                        <span>оценка</span>
-                                                                        <div class="p" onclick="setReyt(this, 10);">10</div>
-                                                                        <div class="p" onclick="setReyt(this, 9);">9</div>
-                                                                        <div class="p" onclick="setReyt(this, 8);">8</div>
-                                                                        <div class="p" onclick="setReyt(this, 7);">7</div>
-                                                                        <div class="p" onclick="setReyt(this, 6);">6</div>
-                                                                        <div class="p" onclick="setReyt(this, 5);">5</div>
-                                                                        <div class="p" onclick="setReyt(this, 4);">4</div>
-                                                                        <div class="p" onclick="setReyt(this, 3);">3</div>
-                                                                        <div class="p" onclick="setReyt(this, 2);">2</div>
-                                                                        <div class="p" onclick="setReyt(this, 1);">1</div>
-                                                                </div>
-                                                        </div>
-                                                </div>
-                                </div>
-                        <?php }
-                        if($i<$picKolW){//дополнить пустыми блоками столбцы страницы, если кол-во фильмов меньше picKolW
-                                $i = $picKolW-$i;
-                                for($k=0; $k<$i; $k++){?>
-                                        <div class="photoblock" id="photoblockNull<?php echo '_'.$k;?>"></div>
-                        <?php }
-                        }
-                        ?>
-                </div>
-        </div>
+        
+        echo '<div id="page" style="height:'.$pageH.'px; width:'.$pageW.'px; margin-right:15px;">';
+		echo '<div id="filmImgBox">';
+		$i=0;
+		while($row = mysqli_fetch_array($res)){
+			$i++;
+			$nameF = FILMS_PATH.str_replace(" ", "_", $row[12]).$row[13];
+			$bgc = '';
+			if((!file_exists($nameF)) && (!file_exists(mb_convert_encoding($nameF, 'Windows-1251', 'UTF-8')))){
+				$bgc =  "bacground-color:red;";
+			}
+			echo '<div class="photoblock" id="photoblock_'.$i.'" style="">';
+			echo '<img class="filmPoster" id="'.$row[0].'" onclick="viewFilm(this, '.$page.')" exeName="'.$row['exe'].'" title="'.$row['name_eng'].'" src="'.$row[11].'"/>';
+			echo <<<HERE
+<div class="iDiv" onmouseenter="openPlay(this);" onmouseleave="closePlay(this);">
+<img class="dImgSmall dImgSmallPlay" src="/images/system/play.png"/>
+<img class="dImgSmall" src="/images/system/information.png"/>
+<img class="dImgSmall" src="/images/system/star.png"/>
+<span id="dig" class="dImgSmallStars">
+HERE;
+			echo $row['reyting'];
+			echo <<<HERE
+</span>
+<div class="dImgSmall dimgSmallStarsReyt">
+<div>
+<span>оценка</span>
+<div class="p" onclick="setReyt(this, 10);">10</div>
+<div class="p" onclick="setReyt(this, 9);">9</div>
+<div class="p" onclick="setReyt(this, 8);">8</div>
+<div class="p" onclick="setReyt(this, 7);">7</div>
+<div class="p" onclick="setReyt(this, 6);">6</div>
+<div class="p" onclick="setReyt(this, 5);">5</div>
+<div class="p" onclick="setReyt(this, 4);">4</div>
+<div class="p" onclick="setReyt(this, 3);">3</div>
+<div class="p" onclick="setReyt(this, 2);">2</div>
+<div class="p" onclick="setReyt(this, 1);">1</div>
+</div>
+</div>
+</div>
+HERE;
+			echo '</div>';
+		}
+		if($i<$picKolW){//дополнить пустыми блоками столбцы страницы, если кол-во фильмов меньше picKolW
+			$i = $picKolW-$i;
+			for($k=0; $k<$i; $k++){
+				echo '<div class="photoblock" id="photoblockNull_'.$k.'"></div>';
+			}
+		}
+		echo '</div>';
+		echo '</div>';
