@@ -28,7 +28,7 @@
 				<div class="block-panel">
 					<div class="close"></div>
 					<div class="panel-button button-play" action="play-film"></div>
-					<div class="panel-button button-rating" action="test-update"></div>
+					<div class="panel-button button-stop" action="test-update"></div>
 				</div>
 			</div>
 		</div>
