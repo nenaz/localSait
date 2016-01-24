@@ -10,9 +10,9 @@
 	$count = 12;
 	$limit = $count * ($navPage - 1);
 	$i=0;
-	Logs('page', $page);
-	Logs('navPage', $navPage);
-	Logs('limit', $limit);
+	// Logs('page', $page);
+	// Logs('navPage', $navPage);
+	// Logs('limit', $limit);
 	
 	if (mysqli_connect_errno($dbh)){
 		echo "Failed to connect to MySQL:" . mysqli_connect_error();
@@ -23,7 +23,7 @@
 	
 	while($row = mysqli_fetch_array($res)){
 		$i++;
-        Logs('i', $i);
+        // Logs('i', $i);
 			$nameF = FILMS_PATH.str_replace(" ", "_", $row[12]).$row[13];
 			$bgc = '';
 			if((!file_exists($nameF)) && (!file_exists(mb_convert_encoding($nameF, 'Windows-1251', 'UTF-8')))){

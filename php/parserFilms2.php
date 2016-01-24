@@ -3,17 +3,17 @@
 	include('constantsRU_inc.php');
 	//session_start();
 	if(isset($_POST['filmName'])){
-		Logs('parserFilms2.php', 'parserFilms2.php');
+		// Logs('parserFilms2.php', 'parserFilms2.php');
 		$filmName = urlencode($_POST['filmName']);
 		$idFilm = $_POST['id'];
 		$search = str_replace(" ", "+", $filmName);
 		$post = true;
-		Logs('$_POST[filmName] != null', '$post == true');
+		// Logs('$_POST[filmName] != null', '$post == true');
 	}else {
 		$filmName = $argv[1];
 		$search = str_replace("_", "+", $filmName);
 		$post = false;
-		Logs('$_POST[filmName] == null', '$post == false');
+		// Logs('$_POST[filmName] == null', '$post == false');
 	}
 	if($post==false){
 		$exe = '.'.pathinfo($search, PATHINFO_EXTENSION);

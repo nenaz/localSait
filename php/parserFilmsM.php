@@ -20,14 +20,14 @@
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$result  = curl_exec($ch);
-		Logs('url', $url);
+		// Logs('url', $url);
 		return $result;
 	}
 	post('http://www.fast-torrent.ru/user/login/','username='.$user.'&password='.$password.'&redirect_to=%2Fuser%2F','http://www.fast-torrent.ru');
 	$result=post('http://www.fast-torrent.ru/search/'.$search.'/1.html',null,'http://www.fast-torrent.ru/search/'.$search.'/');
 
 	$count = substr_count($result, '<span itemprop="alternativeHeadline">');
-	Logs('count', $count);
+	// Logs('count', $count);
 	$cou=1;
 	$bDownloadTrue = false;
 	while($cou<=$count){
@@ -35,7 +35,7 @@
 		$result = str_replace("\t","",$result);
 		$numPos =  strpos($result, '<strong>Режиссер</strong>');
 		if($numPos<0){
-			Logs('numPos<0 EXIT');
+			// Logs('numPos<0 EXIT');
 			$bDdownload = true;
 			Continue;
 		}

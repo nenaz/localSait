@@ -82,8 +82,12 @@
 			$f_id = $_POST['id'];
 			$query = "DELETE FROM films WHERE id='$f_id'";
 			$res = mysqli_query($dbh, $query);
-			if($res)Logs('DELETE FROM films WHERE id='.$f_id, 'delete OK');
-			else Logs('DELETE FROM films WHERE id='.$f_id, 'delete ERROR');
+			if($res){
+                // Logs('DELETE FROM films WHERE id='.$f_id, 'delete OK');
+            }
+			else {
+                // Logs('DELETE FROM films WHERE id='.$f_id, 'delete ERROR');
+            }
 		break;
 	}
 	

@@ -5,7 +5,7 @@
 	$filmName = urlencode($_POST['filmName']);
 	$idFilm = $_POST['id'];
 	$search = str_replace(" ", "+", $filmName);
-	Logs('search', $search);
+	// Logs('search', $search);
 	//$post = true;
 
 /*if($post==false){
@@ -35,7 +35,7 @@
 	//$result=post('http://www.kinopoisk.ru/level/1/film/'.$m[0].'/',null,'http://www.kinopoisk.ru/');
 	$result=post('http://www.kinopoisk.ru/index.php?first=no&what=&kp_query='.$search,null,'http://www.kinopoisk.ru/');
 	$result= iconv("cp1251", "utf-8", $result);
-	Logs('result', $result);
+	// Logs('result', $result);
 	$searchParse=array(
 		'id' => '#element most_wanted(.*?)</li>#si',
 	);
@@ -163,7 +163,7 @@
 	$name_eng = str_replace(":","",$name_eng);
 	$name_eng = str_replace("?","",$name_eng);
 	$name_eng = str_replace("'","\'",$name_eng);
-	Logs('name_eng', $name_eng);
+	// Logs('name_eng', $name_eng);
 	
 	if($post==false){
 		$query = "INSERT INTO films(name_film,year_film,country_film,director,genre,total_time,age,premiere,other,id_acter,path_pic,name_eng,exe,acters) 
@@ -201,16 +201,16 @@
 
 	if($name_eng == '' || $name_eng == 'undefined')$name = $name_film;
 	else $name = $name_eng;
-	Logs('name', $name);
+	// Logs('name', $name);
 	$result = mysql_query("SELECT * FROM film_acter where id_film='$name'");
 		$num_rows = mysql_num_rows($result);
-		Logs('num_rows', $num_rows);
+		// Logs('num_rows', $num_rows);
 		if($num_rows==0){
 			$query = "INSERT INTO film_acter(id_film,act1,act2,act3,act4,act5,act6,act7,act8,act9,act10) 
 			VALUE('$name','$filmActer[0]','$filmActer[1]','$filmActer[2]','$filmActer[3]','$filmActer[4]','$filmActer[5]','$filmActer[6]','$filmActer[7]','$filmActer[8]','$filmActer[9]')";
 			$res = mysql_query($query);
-			if($res) Logs('OK', 'OK insert film_acter!');
-			else Logs('ERROR', 'not insert film_acter!');
+			// if($res) Logs('OK', 'OK insert film_acter!');
+			// else Logs('ERROR', 'not insert film_acter!');
 		}
 		//else Logs('ERROR', 'row already insert!');
 		

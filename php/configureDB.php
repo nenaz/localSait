@@ -16,10 +16,10 @@ header("Contect-Type: text/html; charset=utf-8");
         $result = mysqli_query($dbh, $sql) or die(mysqli_error());
         while($row = mysqli_fetch_row ($result)){
             $selectedIndex = $row[1];
-            Logs('selectedIndex', $selectedIndex);
+            // Logs('selectedIndex', $selectedIndex);
             $newValue = str_replace('film_big', 'film_small', $selectedIndex);
             // $newValue = str_replace('film_small', 'film_big', $selectedIndex);
-            Logs('newValue', $newValue);
+            // Logs('newValue', $newValue);
             $query2 = "UPDATE films SET path_pic_small = '$newValue' WHERE id = $row[0]";
             $res2 = mysqli_query($dbh,$query2);
         }
