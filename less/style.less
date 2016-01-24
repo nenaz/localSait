@@ -621,6 +621,8 @@ body{
 			height: 45px;
 			background-color: rgb(67,40,255);
 			opacity: 0.8;
+            transition:All 300ms ease;
+            transform: translate3d(0px,0px,0px);
 			.close{
 				position:absolute;
 				width:90%;
@@ -629,38 +631,44 @@ body{
 				border-radius : 5px 5px 0 0;
 				right : 10px;
 				background-color: rgb(67,40,255);
+                /*-webkit-transition: opacity 100ms ease;*/
 			}
+            
 			.panel-button{
-				width: 32px;
-				height: 32px;
+				width: 35px;
+				height: 35px;
 				opacity: 0.9;
 				border-radius: 16px;
-				background-color: black;
+				/*background-color: black;*/
 				margin: 3px;
 				display: inline-block;
-				border: solid 1px black;
-                background-image: url('../images/system/new_pause_play_stop_black.png');
+				/*border: solid 1px black;*/
+                background-image: url('../images/system/pause_play_stop_black.png');
                 background-repeat: no-repeat;
+                background-size: cover;
 			}
 			.panel-button:hover{
-				border: solid 1px rgb(198,223,144);
+				/*border: solid 1px rgb(198,223,144);*/
+                /*opacity: 1;*/
 			}
             .button-play{
-                background-position-x: -40px;
+                background-position-x: -44px;
+            }
+            .button-stop{
+                background-position-x: -88px;
             }
 		}
+        .block-panel:hover{
+            transform: translate3d(0px,-40px,0px);
+            opacity: 1;
+            .close{
+                opacity: 0;
+            }
+        }
 	}
 }
 .new-photoblock:hover{
 	background-color: rgb(198,223,144);
-}
-
-.block-panel {
-	transition:All 300ms ease;
-	transform: translate3d(0px,0px,0px);
-}
-.block-panel:hover{
-	transform: translate3d(0px,-40px,0px);
 }
 
 
