@@ -13,6 +13,11 @@ var arrCategory = [];//
 var selectedIndex = 0;
 var searchText = '';
 */
+
+(function(){
+	afterCreate();
+})();
+
 function OptionsPage(){
 	this.pageW;//ширина блока с картинками
 	this.pageH;//высота блока с картинками
@@ -107,32 +112,53 @@ function varToParamGl(arr){//заполнение глобальных пара�
 }
 
 function afterCreate(){
-	$.ajax({
-		type:'POST',
-		url:opt.getmenuNewPagePhp(),
-		async:true,
-		data:'',
-		cache:false,
-		dataType:"xml",
-		success: function(data){
-				rezult = data;
-				varToParamGl(picturesCountXY(rezult, opt));
-				navPages(opt.getpageCount(), opt.getpage());
-				createCategorySelect(opt.getarrCategory(),opt.getselectedIndex());
-				createSearchText(opt.getsearchText());
-				go_menu('admin');
-				var cl = doc.documentElement.clientWidth/2;
-				$('.buttonM').css({'height':opt.pageH});
-				/*$('#filmsPage').css({'width':opt.getpageW()});
-				$('#mainPage').css({'width':screen.width});
-				$('#menuTable').css({'width':screen.width});*/
-				$('#mTable').css({'margin':'auto'});
-				//document.cookie='resolution='+Math.max(screen.width,screen.height)+'; path=/';
-				addEvents();
-				setTimeout('drawCategory()', 1000);
-				setTimeout('drawChart()', 1000);
-			}
-	});
+	var dataXML;
+	
+	// $.post(pageConfig.menuNewPagePhp).done(function(data){
+		// dataXML = JSON.parse(data); 
+		$.post( pageConfig.menuPagePhp, function( data ) {
+			var result = JSON.parse(data);
+			// debugger;
+			
+			varToParamGl(picturesCountXY(result, opt));
+			navPages(opt.getpageCount(), opt.getpage());
+			createCategorySelect(opt.getarrCategory(),opt.getselectedIndex());
+			createSearchText(opt.getsearchText());
+			go_menu('admin');
+			var cl = doc.documentElement.clientWidth/2;
+			$('.buttonM').css({'height':opt.pageH});
+			$('#mTable').css({'margin':'auto'});
+			addEvents();
+			// setTimeout('drawCategory()', 1000);
+			// setTimeout('drawChart()', 1000);
+		});
+	// });
+	
+	// $.ajax({
+		// type:'POST',
+		// url:pageConfig.menuPagePhp,
+		// async:true,
+		// cache:false,
+		// dataType:"xml",
+		// success: function(data){
+				// debugger;
+				// varToParamGl(picturesCountXY(data, opt));
+				// navPages(opt.getpageCount(), opt.getpage());
+				// createCategorySelect(opt.getarrCategory(),opt.getselectedIndex());
+				// createSearchText(opt.getsearchText());
+				// go_menu('admin');
+				// var cl = doc.documentElement.clientWidth/2;
+				// $('.buttonM').css({'height':opt.pageH});
+				// /*$('#filmsPage').css({'width':opt.getpageW()});
+				// $('#mainPage').css({'width':screen.width});
+				// $('#menuTable').css({'width':screen.width});*/
+				// $('#mTable').css({'margin':'auto'});
+				// document.cookie='resolution='+Math.max(screen.width,screen.height)+'; path=/';
+				// addEvents();
+				// setTimeout('drawCategory()', 1000);
+				// setTimeout('drawChart()', 1000);
+			// }
+	// });
 }
 
 function showRssFT(th){//RSS с fasttorrent

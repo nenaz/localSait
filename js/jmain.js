@@ -1,9 +1,9 @@
-function openPlay(th){//обработка иконок на картинке фильма
-	$(th).children('img').first().attr({'id':'bF'});//картинке play добавить id и обработчик
+function openPlay(th) {//обработка иконок на картинке фильма
+	$(th).children('img').first().attr( {'id':'bF'});//картинке play добавить id и обработчик
 	$(th).children().first().on('click', function(){
 		var altName = $(th).closest('.photoblock').find('img').first().attr('title');
 		var exeName = $(th).closest('.photoblock').find('img').first().attr('exeName');
-		view_film2('1', altName, exeName);
+		pageViewFilm('1', altName, exeName);
 	});
 	$(th).children('img').first().next().attr({'id':'info'});//картинке info добавить id
 	$(th).children('img').last().attr({'id':'star'});//картинке оценка добавить id и обработчик
@@ -39,24 +39,25 @@ function setReyt(th, num){//получить рейтинг для фильма
 }
 
 function picturesCountXY(rezult, opt){//генерация констант для отрисовки mf,kbws расположения картинок фильмовё
-	var glWidth = screen.width;//ширина экрана
-	var glHeight = screen.height;//высота экрана
-	var lRButton = 87;//размер кнопок навигации
-	var lROtstup = 15;//размер отступов до кнопок навигации
-	var picWidth = +rezult.getElementsByTagName('pictureWidth')[0].textContent;//ширина картинки
-	var picHeight = +rezult.getElementsByTagName('pictureHeight')[0].textContent;//высота картинки
-	var freePixelW = glWidth-(2*lRButton)-lROtstup;
-	var freePixelH = glHeight-45;
-	picKolW = Math.floor(freePixelW/(picWidth+15));	//количество столбцов с картинками
-	if(picKolW>6)picKolW=6;
-	picKolH = Math.floor(freePixelH/(picHeight+10));//количество строк с картинками
-	var picOstH = freePixelH%(picHeight+10);//остаток свободных пикселей ширины
-	var picOtsHLR = picOstH/2;//отступы от краев экрана
-	pageW = (picWidth+lROtstup)*picKolW;//+lRButton*2;
-	var picOstW = (glWidth - pageW)/2;	
-	pageH = (picHeight+lROtstup)*picKolH+50;
-	var butRight = pageW-lRButton;
-	buttonHeight = pageH - 55;
+	debugger;
+	var glWidth = screen.width,//ширина экрана
+		glHeight = screen.height,//высота экрана
+		lRButton = 87,//размер кнопок навигации
+		lROtstup = 15,//размер отступов до кнопок навигации
+		picWidth = Number(rezult.menuTable.pictureWidth),//ширина картинки
+		picHeight = Number(rezult.menuTable.pictureHeight),//высота картинки
+		freePixelW = glWidth-(2*lRButton)-lROtstup,
+		freePixelH = glHeight-45,
+		picKolW = (Math.floor(freePixelW/(picWidth+15)) > 6) ? 6 : Math.floor(freePixelW/(picWidth+15)),	//количество столбцов с картинками
+		picKolH = Math.floor(freePixelH/(picHeight+10)),//количество строк с картинками
+		picOstH = freePixelH%(picHeight+10),//остаток свободных пикселей ширины
+		picOtsHLR = picOstH/2,//отступы от краев экрана
+		pageW = (picWidth+lROtstup)*picKolW,//+lRButton*2;
+		picOstW = (glWidth - pageW)/2,
+		pageH = (picHeight+lROtstup)*picKolH+50,
+		butRight = pageW-lRButton,
+		buttonHeight = pageH - 55;
+
 	opt.setpageW(pageW);
 	opt.setpageH(pageH);
 	opt.setbuttonHeight(buttonHeight);

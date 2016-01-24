@@ -500,3 +500,280 @@ body{
 	background:#d5d5d5;
 	color:#032200;
 }
+
+
+.new-films-page{
+	display: inline-block;
+    float: left;
+}
+.new-photoblock{
+	display: inline-block;
+    padding: 5px;
+    background-color: rgb(99,111,34);
+    border: solid black 1px;
+    margin: 2px;
+	height : 290px;
+	.photoblock-parent{
+		overflow: hidden;
+		height: 290px;
+		.block-picture{
+			width : 205px;
+			height : 290px;
+			background-color:#6791CD;
+		}
+		.block-rating{
+            display: inline-block;
+            position: absolute;
+            margin: 0;
+            opacity : .9;
+            height : 30px;
+            border-radius : 15px;
+            background-color : #4328ff;
+            overflow: hidden;
+            width : 30px;
+            /*width : 205px;*/
+            color : #FFF9BF;
+            text-shadow: 1px 1px 2px black, 0 0 1em red;
+            cursor : default;
+            .roundRating{
+                width: 205px;
+            }
+            .rating{
+                display : inline-block;
+                width: 7%;
+                text-align : center;
+            }
+            .rating:hover{
+                color : red;
+                font-weight : bold;
+            }
+            .actual-rating{
+                display: inline-block;
+                width: 30px;
+                position: relative;
+                left: 11px;
+                top: 6px;
+                color : yellow;
+            }
+            .select-rating{
+                display: inline-block;
+                position: relative;
+                top: 6px;
+                width: 83%;
+            }
+            /*width: 20px;
+            height: 30px;
+            overflow: hidden;
+            position : relative;*/
+            /*.roundRating{
+                height : 30px;
+                width : 30px;
+                border-radius : 15px;
+                background-color : white;
+            }*/
+			/*.rating-ico{
+				position: absolute;
+				opacity: .8;
+				width: 10px;
+				border-bottom: 10px solid transparent;
+			}
+			.rating-top{
+				width : 20px;
+				height : 20px;
+				position: absolute;
+				border : 0;
+				background-color: red;
+			}
+			.rating-ico-left, .rating-ico-right{
+				top : 20px;
+                margin-top : 0;
+			}
+			.rating-ico-left{
+				border-left: 10px solid red;
+			}
+			.rating-ico-right{
+				border-right: 10px solid red;
+			}
+			.rating-scale{
+				height: 25px;
+				width: 0px;
+				background-color: red;
+				display: inline-block;
+				position: absolute;
+				left: 20px;
+				opacity: .8;
+                .star1{
+                    height: 25px;
+                    background-image: url('../images/system/starz.gif');
+                    background-repeat: no-repeat;
+                    width: 175px;
+                }
+                .star2{
+                    height: 25px;
+                    background-image: url('../images/system/starz.gif');
+                    background-repeat: no-repeat;
+                    background-position-y: -52px;
+                }
+			}*/
+		}
+		.block-panel{
+			width: 100%;
+			height: 45px;
+			background-color: rgb(67,40,255);
+			opacity: 0.8;
+			.close{
+				position:absolute;
+				width:90%;
+				height : 20px;
+				top : -20px;
+				border-radius : 5px 5px 0 0;
+				right : 10px;
+				background-color: rgb(67,40,255);
+			}
+			.panel-button{
+				width: 32px;
+				height: 32px;
+				opacity: 0.9;
+				border-radius: 16px;
+				background-color: black;
+				margin: 3px;
+				display: inline-block;
+				border: solid 1px black;
+                background-image: url('../images/system/new_pause_play_stop_black.png');
+                background-repeat: no-repeat;
+			}
+			.panel-button:hover{
+				border: solid 1px rgb(198,223,144);
+			}
+            .button-play{
+                background-position-x: -40px;
+            }
+		}
+	}
+}
+.new-photoblock:hover{
+	background-color: rgb(198,223,144);
+}
+
+.block-panel {
+	transition:All 300ms ease;
+	transform: translate3d(0px,0px,0px);
+}
+.block-panel:hover{
+	transform: translate3d(0px,-40px,0px);
+}
+
+
+.SH{
+	-webkit-animation: cssAnimation2 1s 1 ease;
+}
+@-webkit-keyframes cssAnimation2 {
+	from { width : 1px; }
+	to { width : 180px; }
+}
+
+
+
+.navigation-button{
+	display: inline-block;
+    width: 50%;
+    height: 25px;
+    opacity: 0.5;
+	float: left;
+	border-bottom: 1px yellow solid;
+    border-top: 1px blue solid;
+}
+.nav-button-right{
+	background-color: green;
+}
+.nav-button-left{
+	background-color: red;
+}
+.nav-button-right:hover, .nav-button-left:hover{
+	background-color: brown;
+}
+
+.css_animation {
+-webkit-animation: cssAnimation 1s 1 ease;
+-webkit-animation-fill-mode: forwards;
+}
+@-webkit-keyframes cssAnimation {
+from { -webkit-transform: scale(1,1) translate3d(0,0,0); }
+to { -webkit-transform: scale(1.6,1.8) translate3d(225px,79px,0); }
+}
+/*
+.css_animation {
+    transform : scale(1.6,1.8) translate3d(225px,79px,0);
+}
+*/
+
+.pageViewFilm{
+    height: 630px;
+    width: 445px;
+    /*margin-left: auto;
+    margin-right: auto;*/
+    background-repeat: no-repeat;
+    background-size: contain;
+   /* background-image : url('../images/film_big/409208.jpg');*/
+    position : absolute;
+    z-index : 1;
+    left: 33%;
+    top : 0;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    img{
+        width: 100%;
+        height: 100%;
+    }
+    video{
+        width: 100%;
+        height: 100%;
+    }
+}
+.background-mask{
+    background-color : black;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.mask-hide{
+    opacity : 0;
+    display : none;
+}
+
+.pageViewFilm_animation {
+    -webkit-animation: pageViewFilmAnimation 300ms 1 ease;
+    -webkit-animation-fill-mode: forwards;
+}
+@-webkit-keyframes pageViewFilmAnimation {
+    from { -webkit-transform: scale(0);}
+    to { -webkit-transform: scale(1);}
+}
+.pageCloseFilm_animation {
+    -webkit-animation: pageCloseFilmAnimation 200ms 1 ease;
+    -webkit-animation-fill-mode: forwards;
+}
+@-webkit-keyframes pageCloseFilmAnimation {
+    from { -webkit-transform: scale(1);}
+    to { -webkit-transform: scale(0);}
+}
+.backMaskShow_animation {
+    -webkit-animation: backMaskShowAnimation 200ms 1 ease;
+    -webkit-animation-fill-mode: forwards;
+}
+@-webkit-keyframes backMaskShowAnimation {
+    from { opacity : 0;}
+    to { opacity : .5;}
+}
+.pageRating_animation {
+    -webkit-transition: width 200ms linear;
+}
+.pageRating-new-width{
+    width : 205px !important;
+}
+
+.classPositionAbsolute{
+    position: absolute;
+}
