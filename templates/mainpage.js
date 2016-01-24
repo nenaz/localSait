@@ -11,7 +11,6 @@
 		className : 'main-model',
 		id : 'model1',
 		el : 'div',
-        // navPage : App.Data.storage.get('startNavPage'),
         navPage : app.getConfig('startNavPage'),
 		template : _.template($('#blokFilm').html()),
 		initialize : function(){
@@ -22,6 +21,7 @@
 		},
         elem : {
             mainBlock : '#blokFilm',
+            navLine : '.navigation-panel',
             backmask : '.background-mask',
             viewFilmElem : '.pageViewFilm',
             blockRating : '.block-rating',
@@ -30,14 +30,13 @@
             navBlockAndFilms : '.navigation-block, .filmss',
         },
 		events : {
-			'click [action="nav-prev"]' : 'activeNavigateButtonPrev',
-			'click [action="nav-next"]' : 'activeNavigateButtonNext',
+			'click [action="nav-prev"], [action="nav-next"]' : 'activeNavigateButton',
+            'click [action="nav-page"]' : 'clickNavPage',
 			'click .new-films-page' : 'viewFilm',
 			'click [action="load-mask"]' : 'closeViewFilm',
             'mouseover .block-rating' : 'viewRating',
             'mouseout .block-rating' : 'closeRating',
             'click .rating' : 'selectRating',
-            // 'mouseout .rating-scale' : 'closeRating',
 			'click [action="play-film"]' : 'playVideoButton',
 		},
 
@@ -45,8 +44,11 @@
             var self = this,
                 deferred = $.Deferred();
             
-            $.when(app.Data.loadTemplate()).done(function(data){
+            $.when(app.Data.loadTemplate(self.elem.mainBlock, 'mainpage')).done(function(data){
                 console.log('render menu');
+            });
+            $.when(app.Data.loadTemplate(self.elem.navLine, 'navigation')).done(function(data){
+                console.log('render navigation line');
             });
 			return deferred.promise();
         },
@@ -67,53 +69,62 @@
 				deferred = $.Deferred();
 
             $.when(app.Data.getMainMenu()).done(function(data){
-				// app.Data.storage.set('startNavPage', self.navPage++);
+                data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
                 self.data = data;
-                if(self.templatekinofilms === undefined){
-					self.templatekinofilms = _.template(self.delCommentTags($(self.elem.mainBlock).html()));
-				}
-				self.template = self.templatekinofilms;
-				$(self.elem.mainBlock).html(self.template(data));
-			});
-			return deferred.promise();
-		},
-		
-		activeNavigateButtonNext : function(e){
-			var self = this,
-				deferred = $.Deferred();
-// debugger;
-            self.navPage = self.navPage + 1;
-			$.when(app.Data.getNextPage({page : true,navPage : self.navPage})).done(function(data){
-                self.data = data;
-				console.log('data');
-                // app.Data.storage.set('startNavPage', app.Data.storage.get('startNavPage') + 1);
-                // app.Data.storage.set('startNavPage', nav);
-                if(self.templatekinofilms === undefined){
-					self.templatekinofilms = _.template(self.delCommentTags($(self.elem.mainBlock).html()));
-				}
-				self.template = self.templatekinofilms;
-				$(self.elem.mainBlock).html(self.template(data));
+                self.renderTemplate(data, self.elem.mainBlock, 'mainBlock');
+                self.renderTemplate(data, self.elem.navLine,'navLine');
 			});
 			return deferred.promise();
 		},
         
-        activeNavigateButtonPrev : function(e){
-			var self = this,
+        renderTemplate : function(data, elem, nameTemplate){
+            var self = this;
+            if(self[nameTemplate] === undefined){
+                self[nameTemplate] = _.template(self.delCommentTags($(elem).html()));
+            }
+            self.template = self[nameTemplate];
+            $(elem).html(self.template(data));
+        },
+		
+		activeNavigateButton : function(e, page){
+            var self = this,
+				incPage = $(e.target).attr('action') === "nav-next" ? true : false;
+            self.navPage = incPage ? self.navPage + 1 : self.navPage - 1;
+			self.activeNavigatePage(self.navPage);
+		},
+        
+        clickNavPage : function(e){
+            var self = this,
+                navPage = parseInt($(e.target).text());
+            e.preventDefault();
+            e.stopPropagation();
+            self.navPage = navPage;
+            self.activeNavigatePage(navPage);
+        },
+        
+        activeNavigatePage : function(navPage){
+            var self = this,
 				deferred = $.Deferred();
-
-            self.navPage = self.navPage - 1;
-			$.when(app.Data.getNextPage({page : true,navPage : self.navPage})).done(function(data){
-				console.log('data');
+            $.when(app.Data.getNextPage({page : true,navPage : navPage})).done(function(data){
+                data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
                 self.data = data;
-                // app.Data.storage.set('startNavPage', nav);
-                if(self.templatekinofilms === undefined){
-					self.templatekinofilms = _.template(self.delCommentTags($(self.elem.mainBlock).html()));
-				}
-				self.template = self.templatekinofilms;
-				$(self.elem.mainBlock).html(self.template(data));
+                self.renderTemplate(data, self.elem.mainBlock, 'mainBlock');
 			});
 			return deferred.promise();
-		},
+        },
+        
+        // activeNavigateButtonPrev : function(e){
+			// var self = this,
+				// deferred = $.Deferred();
+
+            // self.navPage = self.navPage - 1;
+			// $.when(app.Data.getNextPage({page : true,navPage : self.navPage})).done(function(data){
+                // data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
+                // self.data = data;
+                // self.renderTemplate(data, self.elem.mainBlock);
+			// });
+			// return deferred.promise();
+		// },
         
         viewFilm : function(e){
             var self = this,
@@ -125,17 +136,6 @@
             $(self.elem.backmask).off('click').on('click',function(){
                 self.closeViewFilm();
             });
-            // $('#videoFilm').bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', function(e){
-                // e.preventDefault();
-                // e.stopPropagation();
-                // if (document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen) {
-                    // $(self.elem.navBlockAndFilms).hide();
-                    // $(self.elem.backgroundMask).removeClass('classPositionAbsolute');
-                // } else {
-                    // $(self.elem.navBlockAndFilms).show();
-                    // $(self.elem.backgroundMask).addClass('classPositionAbsolute');
-                // }
-            // });
         },
         
         closeViewFilm : function(e){
@@ -145,15 +145,8 @@
             $('[action=load-mask]').removeClass('backMaskShow_animation').addClass('mask-hide');
             _.delay(function(){
                 $(self.elem.viewFilmElem).addClass('mask-hide');
-                // self.filmStop();
             }, 200);
         },
-        
-        // filmStop : function(){
-            // var mFilm = $('#videoFilm');
-            // mFilm[0].pause();
-            // mFilm[0].currentTime = 0;
-        // },
         
         viewRating : function(e){
             var me = this,
@@ -177,7 +170,6 @@
         },
         
         playVideoButton : function(e){
-            // debugger;
             var self = this,
                 deferred = $.Deferred(),
                 filmId = $(e.target).closest('.new-films-page').attr('data-id'),
@@ -187,7 +179,6 @@
             console.log('fileName = '+fileName);
             $.when(app.Data.playVideo({fileName : fileName})).done(function(data){
                 console.log('done playVideo = ' + data);
-                // debugger;
             });
         },
 	});

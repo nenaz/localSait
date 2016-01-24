@@ -50,9 +50,9 @@
             return deferred.promise();
         };
         
-        this.loadTemplate = function(){
+        this.loadTemplate = function(id, name){
             var self = this,
-				name = 'mainpage',
+				// name = 'mainpage',
 				separator = '/',
 				path = 'templates',
 				extension = '.tpl',
@@ -68,7 +68,7 @@
 				dataType: 'html'
 			}).done(function(data) {
 				try{
-					$('#blokFilm').empty().html(data);
+					$(id).empty().html(data);
                     deferred.resolve(data);
 				}
 				catch (exception){

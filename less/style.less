@@ -501,7 +501,7 @@ body{
 	color:#032200;
 }
 
-
+/**************************************************************************************************/
 .new-films-page{
 	display: inline-block;
     float: left;
@@ -561,60 +561,6 @@ body{
                 top: 6px;
                 width: 83%;
             }
-            /*width: 20px;
-            height: 30px;
-            overflow: hidden;
-            position : relative;*/
-            /*.roundRating{
-                height : 30px;
-                width : 30px;
-                border-radius : 15px;
-                background-color : white;
-            }*/
-			/*.rating-ico{
-				position: absolute;
-				opacity: .8;
-				width: 10px;
-				border-bottom: 10px solid transparent;
-			}
-			.rating-top{
-				width : 20px;
-				height : 20px;
-				position: absolute;
-				border : 0;
-				background-color: red;
-			}
-			.rating-ico-left, .rating-ico-right{
-				top : 20px;
-                margin-top : 0;
-			}
-			.rating-ico-left{
-				border-left: 10px solid red;
-			}
-			.rating-ico-right{
-				border-right: 10px solid red;
-			}
-			.rating-scale{
-				height: 25px;
-				width: 0px;
-				background-color: red;
-				display: inline-block;
-				position: absolute;
-				left: 20px;
-				opacity: .8;
-                .star1{
-                    height: 25px;
-                    background-image: url('../images/system/starz.gif');
-                    background-repeat: no-repeat;
-                    width: 175px;
-                }
-                .star2{
-                    height: 25px;
-                    background-image: url('../images/system/starz.gif');
-                    background-repeat: no-repeat;
-                    background-position-y: -52px;
-                }
-			}*/
 		}
 		.block-panel{
 			width: 100%;
@@ -647,10 +593,6 @@ body{
                 background-repeat: no-repeat;
                 background-size: cover;
 			}
-			.panel-button:hover{
-				/*border: solid 1px rgb(198,223,144);*/
-                /*opacity: 1;*/
-			}
             .button-play{
                 background-position-x: -44px;
             }
@@ -681,24 +623,29 @@ body{
 }
 
 
-
-.navigation-button{
-	display: inline-block;
-    width: 50%;
-    height: 25px;
-    opacity: 0.5;
-	float: left;
-	border-bottom: 1px yellow solid;
-    border-top: 1px blue solid;
-}
-.nav-button-right{
-	background-color: green;
-}
-.nav-button-left{
-	background-color: red;
-}
-.nav-button-right:hover, .nav-button-left:hover{
-	background-color: brown;
+.navigation-block{
+    display: table;
+    width: 100%;
+    .navigation-button{
+        display: table-cell;
+        width: 32%;
+        height: 25px;
+        opacity: 0.5;
+    }
+    .navigation-panel div{
+        text-align: center;
+        height: 100%;
+        line-height: 25px;
+    }
+    .nav-button-right{
+        background-color: green;
+    }
+    .nav-button-left{
+        background-color: red;
+    }
+    .nav-button-right:hover, .nav-button-left:hover{
+        background-color: brown;
+    }
 }
 
 .css_animation {
