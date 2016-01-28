@@ -68,7 +68,7 @@
 			var self = this,
 				deferred = $.Deferred();
 
-            $.when(app.Data.getMainMenu()).done(function(data){
+            $.when(app.Data.getMainMenu(app.monitor)).done(function(data){
                 data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
                 self.data = data;
                 self.renderTemplate(data, self.elem.mainBlock, 'mainBlock');
