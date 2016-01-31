@@ -7,7 +7,7 @@
 	$page = $_GET['page'];
 	$navPage = $_GET['navPage'];
 	$titleAdd = 'Добавить запись';
-	$count = 12;
+	$count = $_GET['globalCountPicture'];
 	$limit = $count * ($navPage - 1);
 	$i=0;
 	// Logs('page', $page);

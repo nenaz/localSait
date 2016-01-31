@@ -68,7 +68,7 @@
 			var self = this,
 				deferred = $.Deferred();
 
-            $.when(app.Data.getMainMenu(app.monitor)).done(function(data){
+            $.when(app.Data.getMainMenu(app.Monitor())).done(function(data){
                 data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
                 self.data = data;
                 self.renderTemplate(data, self.elem.mainBlock, 'mainBlock');
@@ -105,7 +105,7 @@
         activeNavigatePage : function(navPage){
             var self = this,
 				deferred = $.Deferred();
-            $.when(app.Data.getNextPage({page : true,navPage : navPage})).done(function(data){
+            $.when(app.Data.getNextPage({page : true,navPage : navPage,globalCountPicture : App.Monitor().globalCountPicture})).done(function(data){
                 data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
                 self.data = data;
                 self.renderTemplate(data, self.elem.mainBlock, 'mainBlock');
