@@ -38,6 +38,7 @@
             'mouseout .block-rating' : 'closeRating',
             'click .rating' : 'selectRating',
 			'click [action="play-film"]' : 'playVideoButton',
+            'click [type="button"]' : 'searchKP'
 		},
 
         beforeRender : function(){
@@ -190,6 +191,16 @@
                 console.log('done playVideo = ' + data);
             });
         },
+        
+        searchKP : function (e) {
+             var self = this,
+                filmName = $(e.target).prev();
+            
+            $.when(app.Data.searchKP({filmName : filmName.val()})).done(function(data){
+                filmName.val('');
+                self.render();
+            });
+        }
 	});
 
 	var mkinofilms = new MkinofilmsModel();

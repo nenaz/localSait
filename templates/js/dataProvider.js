@@ -92,6 +92,25 @@
                 delete localStorage[localStoragePrefix + item];
             }
 		};
+        
+        this.searchKP = function(param){
+            var deferred = $.Deferred();
+            $.ajax({
+				url : '../php/parserFilms2.php',
+				type : 'get',
+				dataType : 'json',
+                crossDomain: true,
+				data : param
+			}).done(function(data){
+                // debugger;
+                console.log('search');
+                deferred.resolve(data);
+			}).fail(function(error){
+                deferred.resolve(error);
+                // debugger;
+            });
+            return deferred.promise();
+        };
 	};
 	app.Data = new DataProvider();
 }(App, jQuery, localStorage));

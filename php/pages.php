@@ -37,7 +37,7 @@
 			$obj['blockFilms']['film-'.$i]['title'] = $row['name_eng'];
 			$obj['blockFilms']['film-'.$i]['src_big'] = $row['path_pic_big'];
 			$obj['blockFilms']['film-'.$i]['src_small'] = $row['path_pic_small'];
-			$obj['blockFilms']['film-'.$i]['rating'] = $row['reyting'];
+			$obj['blockFilms']['film-'.$i]['rating'] = $row['kinopoisk'];
 	}
 	$obj['blockFilmsCount'] = $i;
 	echo json_encode($obj);

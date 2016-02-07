@@ -4,12 +4,13 @@
     include_once('functions_inc.php');
     // session_start();
     include('mysql_inc.php');
-	if(isset($_POST['filmName'])){
-		// $filmName = urlencode($_POST['filmName']);
+	if(isset($_GET['filmName'])){
+		$filmName = urlencode($_GET['filmName']);
 		// $idFilm = $_POST['id'];
-		// $search = str_replace(" ", "+", $filmName);
+		$search = str_replace(" ", "+", $filmName);
 		// $post = true;
-		// Logs('$_POST[filmName] != null', '$post == true');
+		$post = false;
+		// Logs('$_GET[filmName] != null', '$post == true');
 	}else {
 		$filmName = $argv[1];
 		$search = str_replace("_", "+", $filmName);
@@ -50,7 +51,6 @@
 		$sr[$index]=preg_replace("#.+?<a.+?href=.+?(\d{2,6})/.{20,40}#si","$1",$searchMas[1]);
 	}
 	$result=post(KP_L1.$sr['id'].'/',null,KP_URL);
-    error_log(date("Y M d, H:i:s O => ").": ".$result."\r\n", 3, "../logs/myErrors.log");
 	$result= iconv("cp1251", "utf-8", $result);
 	$parse=array(
 		'name' =>         '#<h1 class=\"moviename-big\" itemprop=\"name\">(.*?)</h1>#si',
@@ -116,26 +116,29 @@
         $query_str_fields = ")";
         $query_str_value = ")";
     }
+    $obj = [];
 	if($post==false){
 		$query = "INSERT INTO films(name_film,year_film,director,genre,total_time,age,people_date,other,id_acter,path_pic_big,path_pic_small,name_eng,exe,acters,country_film".$query_str_fields." 
 		VALUE('$name_film','$new_year','$director','$genre','$new_time[0]','$age','$premiere','$new_description','$new_acters_str','$path_pic_big','$path_pic_small','$name_eng','$exe','$new_acters_str','$new_country_str'".$query_str_value;
-		$res = mysqli_query($dbh, $query);
+		// Logs('query',$query);
+        $res = mysqli_query($dbh, $query);
+        $obj['res'] = true;
 	}
 	else {
 		Logs('$post','false');
         $query = "UPDATE films SET premiere = '$premiere', other = '$other', path_pic = '$path_pic', acters = '$acte', name_eng = '$name_eng' WHERE id = $idFilm";
 		$res = mysqli_query($dbh, $query);
 	}
-	for($i=0; $i < count($new_acters_mas); $i++){
-		$item = $new_acters_mas[$i];
-        $sql = "SELECT * FROM acter where name='$item'";
-		$result = mysqli_query($dbh, $sql);
-		$num_rows = mysqli_num_rows($result);
-		if($num_rows==0){
-			$query = "INSERT INTO acter(name,originalName,dateA) VALUE('$item','','')";
-			$res = mysqli_query($dbh, $query);
-		}
-	}
+	// for($i=0; $i < count($new_acters_mas); $i++){
+		// $item = $new_acters_mas[$i];
+        // $sql = "SELECT * FROM acter where name='$item'";
+		// $result = mysqli_query($dbh, $sql);
+		// $num_rows = mysqli_num_rows($result);
+		// if($num_rows==0){
+			// $query = "INSERT INTO acter(name,originalName,dateA) VALUE('$item','','')";
+			// $res = mysqli_query($dbh, $query);
+		// }
+	// }
 	// $filmActer=array();
 	// $i = 0;
 	// $sql = "SELECT id FROM acter where name='$acter[0]' or name='$acter[1]' or name='$acter[2]' or name='$acter[3]' or name='$acter[4]' or name='$acter[5]' or name='$acter[6]' or name='$acter[7]' or name='$acter[8]' or name='$acter[9]'";
@@ -154,5 +157,6 @@
 			// VALUE('$name','$filmActer[0]','$filmActer[1]','$filmActer[2]','$filmActer[3]','$filmActer[4]','$filmActer[5]','$filmActer[6]','$filmActer[7]','$filmActer[8]','$filmActer[9]')";
 			// $res = mysqli_query($dbh, $query);
 		// }
-    print('end');
+    // echo json_encode($obj);
+    echo true;
 ?>
