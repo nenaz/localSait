@@ -1,26 +1,25 @@
 ﻿<?php
 	include_once('logs.php');
-	include('constantsRU_inc.php');
-	//session_start();
+    include_once('constantsRU_inc.php');
+    include_once('functions_inc.php');
+    // session_start();
+    include('mysql_inc.php');
 	if(isset($_POST['filmName'])){
-		// Logs('parserFilms2.php', 'parserFilms2.php');
-		$filmName = urlencode($_POST['filmName']);
-		$idFilm = $_POST['id'];
-		$search = str_replace(" ", "+", $filmName);
-		$post = true;
+		// $filmName = urlencode($_POST['filmName']);
+		// $idFilm = $_POST['id'];
+		// $search = str_replace(" ", "+", $filmName);
+		// $post = true;
 		// Logs('$_POST[filmName] != null', '$post == true');
 	}else {
 		$filmName = $argv[1];
 		$search = str_replace("_", "+", $filmName);
 		$post = false;
-		// Logs('$_POST[filmName] == null', '$post == false');
 	}
 	if($post==false){
 		$exe = '.'.pathinfo($search, PATHINFO_EXTENSION);
 		if($exe=='') $exe = MKV;
 		$exe = '.'.pathinfo($search, PATHINFO_EXTENSION);
 	}
-
 	$user=KP_USER;
 	$password=KP_PASS;
 	function post($url,$post,$refer){
@@ -37,8 +36,6 @@
 		$result  = curl_exec($ch);
 		return $result;
 	}
-
-	//Logs('FFFFFFFFF', $search);
 	post('http://www.kinopoisk.ru/level/30/','shop_user[login]='.$user.'&shop_user[pass]='.$password.'&shop_user[mem]=on&auth=%E2%EE%E9%F2%E8+%ED%E0+%F1%E0%E9%F2','http://www.kinopoisk.ru');
 	//$result=post('http://www.kinopoisk.ru/level/1/film/'.$m[0].'/',null,'http://www.kinopoisk.ru/');
 	$result=post('http://www.kinopoisk.ru/index.php?first=no&what=&kp_query='.$search,null,'http://www.kinopoisk.ru/');
@@ -47,167 +44,115 @@
 	$searchParse=array(
 		'id' => '#element most_wanted(.*?)</li>#si',
 	);
-	
 	$sr=array();
 	foreach($searchParse as $index => $value){
 		preg_match($value,$result,$searchMas);
 		$sr[$index]=preg_replace("#.+?<a.+?href=.+?(\d{2,6})/.{20,40}#si","$1",$searchMas[1]);
 	}
-
 	$result=post(KP_L1.$sr['id'].'/',null,KP_URL);
+    error_log(date("Y M d, H:i:s O => ").": ".$result."\r\n", 3, "../logs/myErrors.log");
 	$result= iconv("cp1251", "utf-8", $result);
 	$parse=array(
 		'name' =>         '#<h1 class=\"moviename-big\" itemprop=\"name\">(.*?)</h1>#si',
 		'originalname'=>  '#<span itemprop=\"alternativeHeadline\">(.*?)</span>#si',
 		'script' =>       '#сценарий</td><td>(.*?)</td></tr>#si',
-		'genre' =>        '#жанр</td><td>(.*?)</td></tr>#si',
+		'genre' =>        '#<span itemprop="genre">(.*?)</span>#si',
 		'rus_premiere' => '#data-ical-type=\"rus\"(.*?)data-date-premier-start-link=#si',
 		'acts' =>         '#<ul><li itemprop=\"actors\">(.*?)</li></ul>#si',
 		'MPAA' =>         '#рейтинг MPAA</td>(.*?)</td>#si',
 		'time' =>         '#id=\"runtime\">(.*?)</td></tr>#si',
 		'description' =>  '#<span class=\"_reachbanner_\">(.*?)</span>#si',
 		'imdb' =>         '#IMDB:\s(.*?)</div>#si',
-		'country' =>      '#<td class="type">страна</td>(.*?)</td>#si',
+		'kinopoisk' => '#<span class="rating_ball">(.*?)</span>#si',
 		'director' =>     '#<td itemprop="director">(.*?)</td>#si',
 		'year' =>         '#<td class="type">год</td>(.*?)</td>#si',
-		'picture' =>      '#onclick="openImgPopup((.*?)); return false#si'
+		'picture_big' => '#onclick="openImgPopup((.*?));#si',
+		'picture_small' => '#img width="205" src="(.*?)"#si',
+        'country' => '#<div class="movieFlags">(.*?)<div id="photoBlock"#si'
 	);
- 
 	$new=array();
-	$acter=array();
 	foreach($parse as $index => $value){
-		preg_match($value,$result,$matches);
-		$new[$index]=preg_replace("#<a.+?>(.+?)</a>#si","$1",$matches[1]);
+        preg_match($value,$result,$matches);
+        if ($matches != null) {
+            $new[$index]=preg_replace("#<a.+?>(.+?)</a>#si","$1",$matches[1]);
+        }
 	}
-	$acts = $new['acts'];
-	$pos2 = strpos($acts, '</li>', 0);
-	$acter[0] = substr($acts, 0, $pos2);
-	$acts = substr($acts, $pos2+5);
-
-	for($i=0; $i < 10; $i++){
-			$pos1 = strpos($acts, '<li itemprop="actors">',0);		
-			$acts = substr($acts, $pos1+22);
-			$pos2 = strpos($acts, '</li>', $pos1);
-			$acter[$i+1] = substr($acts, $pos1, $pos2);
-			$acts = substr($acts, $pos2+5);
-	}
-
-	$pos1 = strpos($new['genre'], '<span itemprop="genre">')+23;
-	$pos2 = strpos($new['genre'], '</span>');
-	$genre = substr($new['genre'], $pos1, $pos2-$pos1);
-	
-	$pos1 = strpos($new['description'], 'description">')+13;
-	$pos2 = strpos($new['description'], '</span>');
-	$description = substr($new['description'], $pos1, $pos2-$pos1);
-	
-	$pos1 = strpos($new['rus_premiere'], 'data-ical-date="')+16;
-	$pos2 = strpos($new['rus_premiere'], '"', $pos1);
-	$rusPremiere = substr($new['rus_premiere'], $pos1, $pos2-$pos1);
-	
+    preg_match_all('/title=\D+">/',$new['country'],$new_country);
+    $new_country_str = str_replace(['title="','">'],'',implode(', ',$new_country[0]));
+    $new_acters_str = str_replace(['</li><li itemprop="actors">','...'],' ',$new['acts']);
+    $new_acters_mas = explode(' ', $new_acters_str);
+    $new_genre = explode(' ', $new['genre']);
+    $new_description = html_entity_decode(str_replace('&#151;','-',str_replace(['<div class="brand_words" itemprop="description">','</div>'],' ',$new['description'])));
+    $rusPremiere = trim(str_replace(['data-ical-date="','"'],'',$new['rus_premiere']));
 	preg_match("/(\d{1,2})\s(\D+)\s(\d{4})/",$new['rus_premiere'], $pass);
-	$pass[2]= str_replace(" ","",$pass[2]);
-	function datadata($month){
-		switch($month){
-			case 'января':   $month = '01';break;
-			case 'февраля':  $month = '02';break;
-			case 'марта':    $month = '03';break;
-			case 'апреля':   $month = '04';break;
-			case 'мая':      $month = '05';break;
-			case 'июня':     $month = '06';break;
-			case 'июля':     $month = '07';break;
-			case 'августа':  $month = '08';break;
-			case 'сентября': $month = '09';break;
-			case 'октября':  $month = '10';break;
-			case 'ноября':   $month = '11';break;
-			case 'декабря':  $month = '12';break;
-		}
-		return $month;
-	}
-	$month = datadata($pass[2]);
-	$rusPremiere = str_replace(" ","",$pass[3]).'-'.$month.'-'.str_replace(" ","",$pass[1]);
-	
-	$new['country'] = str_replace(" ","",$new['country']);
-	$new['country'] = str_replace("\n","",$new['country']);
-	$pos1 = strpos($new['country'], 'relative">')+10;
-	$pos2 = strpos($new['country'], '</div>', $pos1);
-	$country = substr($new['country'], $pos1, $pos2-$pos1);
-	
-	$new['year'] = str_replace(" ","",$new['year']);
-	$new['year'] = str_replace("\n","",$new['year']);
-	$pos1 = strpos($new['year'], 'relative">')+10;
-	$pos2 = strpos($new['year'], '</div>', $pos1);
-	$year = substr($new['year'], $pos1, $pos2-$pos1);
-	
-	$new['picture'] = str_replace("('", "", $new['picture']);
-	$new['picture'] = str_replace("')", "", $new['picture']);
-	
-	$url = PIC_URL.$new['picture'];
-	$img = LOC_XAMP_FILMS.$new['picture'];
-
+	$new_year = $pass[3];
+	$new["picture_big"] = preg_replace("/(\(')||('\))/i", "", $new["picture_big"]); 
+	$new["picture_small"] = preg_replace("/http:\/\/st.kp.yandex.net/i", "", $new["picture_small"]); 
+	$url = PIC_URL.$new['picture_big'];
+	$img = LOC_XAMP_FILMS.$new['picture_big'];
 	file_put_contents($img, file_get_contents($url));
-	
-	include ('mysql_inc.php');
-	
+    $url = PIC_URL.$new['picture_small'];
+	$path_pic_small = preg_replace('/iphone\d+_/','',str_replace('film_iphone','film_small',$new['picture_small']));
+	$img = LOC_XAMP_FILMS.$path_pic_small;
+	file_put_contents($img, file_get_contents($url));
 	$name_film = str_replace("\n","",$new['name']);
-	$year_film = $year;
-	$country_film = $country;
 	$director = $new['director'];
-	$genre = $genre;
+	$genre = $new['genre'];
 	$total_time = str_replace("\n","",$new['time']);
+    preg_match('/\d{1,3}\s\D{6}/',$new['time'],$new_time);
 	$age = str_replace("\n","",$new['MPAA']);
+    preg_match('/alt="\D+\d+/',$age,$new_age);
+    $age = str_replace('alt="','',$new_age[0]);
 	$premiere = $rusPremiere;
-	$other = str_replace("\n","",$description);
-	$acte = '1';
-	$path_pic = $new['picture'];
-	$name_eng = str_replace("\n","",$new['originalname']);
-	$name_eng = str_replace("&nbsp;"," ",$name_eng);
-	$name_eng = str_replace(":","",$name_eng);
-	$name_eng = str_replace("?","",$name_eng);
-	//Logs('name_eng', $name_eng);
-	
+	$path_pic_big = $new['picture_big'];
+	$name_eng = str_replace(["?",":","&nbsp;","\n"],"",$new['originalname']);
+    $exe = '.mkv';
+    if (isset($new['imdb'])) {
+        $imdb = $new['imdb'];
+        $kinopoisk = $new['kinopoisk'];
+        $query_str_fields = ",IMDB,kinopoisk)";
+        $query_str_value = ",'$imdb','$kinopoisk')";
+    } else {
+        $query_str_fields = ")";
+        $query_str_value = ")";
+    }
 	if($post==false){
-		$query = "INSERT INTO films(name_film,year_film,country_film,director,genre,total_time,age,premiere,other,id_acter,path_pic,name_eng,exe,acters) 
-		VALUE('$name_film','$year_film','$country_film','$director','$genre','$total_time','$age','$premiere','$other','$acte','$path_pic','$name_eng','$exe','$acte')";
+		$query = "INSERT INTO films(name_film,year_film,director,genre,total_time,age,people_date,other,id_acter,path_pic_big,path_pic_small,name_eng,exe,acters,country_film".$query_str_fields." 
+		VALUE('$name_film','$new_year','$director','$genre','$new_time[0]','$age','$premiere','$new_description','$new_acters_str','$path_pic_big','$path_pic_small','$name_eng','$exe','$new_acters_str','$new_country_str'".$query_str_value;
 		$res = mysqli_query($dbh, $query);
-		/*if($res) Logs('OK', 'OK insert films!');
-		else Logs('ERROR', 'not insert films!');*/
 	}
 	else {
-		$query = "UPDATE films SET premiere = '$premiere', other = '$other', path_pic = '$path_pic', acters = '$acte', name_eng = '$name_eng' WHERE id = $idFilm";
+		Logs('$post','false');
+        $query = "UPDATE films SET premiere = '$premiere', other = '$other', path_pic = '$path_pic', acters = '$acte', name_eng = '$name_eng' WHERE id = $idFilm";
 		$res = mysqli_query($dbh, $query);
-		/*if($res)  Logs('OK', 'OK update films!');
-		else Logs('ERROR', 'not update films!');*/
 	}
+	// for($i=0; $i<10; $i++){
+		// $sql = "SELECT * FROM acter where name='$acter[$i]'";
+		// $result = mysqli_query($dbh, $sql);
+		// $num_rows = mysqli_num_rows($result);
+		// if($num_rows==0){
+			// $query = "INSERT INTO acter(name,originalName,dateA) VALUE('$acter[$i]','','')";
+			// $res = mysqli_query($dbh, $query);
+		// }
+	// }
 	
-	for($i=0; $i<10; $i++){
-		$sql = "SELECT * FROM acter where name='$acter[$i]'";
-		$result = mysqli_query($dbh, $sql);
-		$num_rows = mysqli_num_rows($result);
-		if($num_rows==0){
-			$query = "INSERT INTO acter(name,originalName,dateA) VALUE('$acter[$i]','','')";
-			$res = mysqli_query($dbh, $query);
-		}
-	}
-	
-	$filmActer=array();
-	$i = 0;
-	$sql = "SELECT id FROM acter where name='$acter[0]' or name='$acter[1]' or name='$acter[2]' or name='$acter[3]' or name='$acter[4]' or name='$acter[5]' or name='$acter[6]' or name='$acter[7]' or name='$acter[8]' or name='$acter[9]'";
-	$result = mysqli_query($dbh, $sql);
-	while($row = mysqli_fetch_row($result)){
-		$filmActer[$i] = $row[0];
-		$i++;
-	}
-
-	if($name_eng == '' || $name_eng == 'undefined')$name = $name_film;
-	else $name = $name_eng;
-	//Logs('name', $name);
-	$sql = "SELECT * FROM film_acter where id_film='$name'";
-	$result = mysqli_query($dbh, $sql);
-		$num_rows = mysqli_num_rows($result);
-		//Logs('num_rows', $num_rows);
-		if($num_rows==0){
-			$query = "INSERT INTO film_acter(id_film,act1,act2,act3,act4,act5,act6,act7,act8,act9,act10) 
-			VALUE('$name','$filmActer[0]','$filmActer[1]','$filmActer[2]','$filmActer[3]','$filmActer[4]','$filmActer[5]','$filmActer[6]','$filmActer[7]','$filmActer[8]','$filmActer[9]')";
-			$res = mysqli_query($dbh, $query);
-		}
+	// $filmActer=array();
+	// $i = 0;
+	// $sql = "SELECT id FROM acter where name='$acter[0]' or name='$acter[1]' or name='$acter[2]' or name='$acter[3]' or name='$acter[4]' or name='$acter[5]' or name='$acter[6]' or name='$acter[7]' or name='$acter[8]' or name='$acter[9]'";
+	// $result = mysqli_query($dbh, $sql);
+	// while($row = mysqli_fetch_row($result)){
+		// $filmActer[$i] = $row[0];
+		// $i++;
+	// }
+	// if($name_eng == '' || $name_eng == 'undefined')$name = $name_film;
+	// else $name = $name_eng;
+	// $sql = "SELECT * FROM film_acter where id_film='$name'";
+	// $result = mysqli_query($dbh, $sql);
+		// $num_rows = mysqli_num_rows($result);
+		// if($num_rows==0){
+			// $query = "INSERT INTO film_acter(id_film,act1,act2,act3,act4,act5,act6,act7,act8,act9,act10) 
+			// VALUE('$name','$filmActer[0]','$filmActer[1]','$filmActer[2]','$filmActer[3]','$filmActer[4]','$filmActer[5]','$filmActer[6]','$filmActer[7]','$filmActer[8]','$filmActer[9]')";
+			// $res = mysqli_query($dbh, $query);
+		// }
+        print('end');
 ?>

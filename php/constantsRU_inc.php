@@ -8,7 +8,7 @@
 	define('KP_PASS', 'nrai0gbd');
 	define('KP_L1', 'http://www.kinopoisk.ru/level/1/film/');
 	define('KP_URL', 'http://www.kinopoisk.ru/');
-	define('LOC_XAMP_FILMS', 'c:/xampp2/htdocs/films2');
+	define('LOC_XAMP_FILMS', 'F:/others/GITHUB/localsait_new');
 	define('PIC_URL', 'http://st.kp.yandex.net');
 	define("FILMS_PATH", "D:\\Films\\");
 	define("DB_HOST", "localhost");

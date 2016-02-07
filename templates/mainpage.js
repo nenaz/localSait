@@ -55,7 +55,16 @@
         
 		render : function(){
 			this.loadData();
+            this.afterRender();
 		},
+        
+        afterRender : function(){
+            $('#blokFilm').css({'padding-left' : app.Monitor().globalPadding});
+            $(this.elem.viewFilmElem).css({
+                'left' : app.Monitor().left,
+                'top' : app.Monitor().top,
+            });
+        },
 		
 		delCommentTags : function(html){
 			if (typeof html !== 'undefined'){
@@ -68,7 +77,7 @@
 			var self = this,
 				deferred = $.Deferred();
 
-            $.when(app.Data.getMainMenu(app.Monitor())).done(function(data){
+            $.when(app.Data.getMainMenu({globalCountPicture : app.Monitor().globalCountPicture})).done(function(data){
                 data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
                 self.data = data;
                 self.renderTemplate(data, self.elem.mainBlock, 'mainBlock');
@@ -130,7 +139,7 @@
             var self = this,
                 str = $(e.target).attr('src');
 
-            $(self.elem.viewFilmElem).find('img').attr('src', str.replace('small', 'big')); 
+            $(self.elem.viewFilmElem).find('img').attr('src', str.replace('small', 'big'));  
             $(self.elem.viewFilmElem).removeClass('mask-hide pageCloseFilm_animation').addClass('pageViewFilm_animation');
             $(self.elem.backmask).removeClass('mask-hide').addClass('backMaskShow_animation');
             $(self.elem.backmask).off('click').on('click',function(){
