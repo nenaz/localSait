@@ -79,8 +79,8 @@
 	}
     preg_match_all('/title=\D+">/',$new['country'],$new_country);
     $new_country_str = str_replace(['title="','">'],'',implode(', ',$new_country[0]));
-    $new_acters_str = str_replace(['</li><li itemprop="actors">','...'],' ',$new['acts']);
-    $new_acters_mas = explode(' ', $new_acters_str);
+    $new_acters_str = str_replace(['</li><li itemprop="actors">','...'],', ',$new['acts']);
+    $new_acters_mas = explode(', ', $new_acters_str);
     $new_genre = explode(' ', $new['genre']);
     $new_description = html_entity_decode(str_replace('&#151;','-',str_replace(['<div class="brand_words" itemprop="description">','</div>'],' ',$new['description'])));
     $rusPremiere = trim(str_replace(['data-ical-date="','"'],'',$new['rus_premiere']));
@@ -126,16 +126,16 @@
         $query = "UPDATE films SET premiere = '$premiere', other = '$other', path_pic = '$path_pic', acters = '$acte', name_eng = '$name_eng' WHERE id = $idFilm";
 		$res = mysqli_query($dbh, $query);
 	}
-	// for($i=0; $i<10; $i++){
-		// $sql = "SELECT * FROM acter where name='$acter[$i]'";
-		// $result = mysqli_query($dbh, $sql);
-		// $num_rows = mysqli_num_rows($result);
-		// if($num_rows==0){
-			// $query = "INSERT INTO acter(name,originalName,dateA) VALUE('$acter[$i]','','')";
-			// $res = mysqli_query($dbh, $query);
-		// }
-	// }
-	
+	for($i=0; $i < count($new_acters_mas); $i++){
+		$item = $new_acters_mas[$i];
+        $sql = "SELECT * FROM acter where name='$item'";
+		$result = mysqli_query($dbh, $sql);
+		$num_rows = mysqli_num_rows($result);
+		if($num_rows==0){
+			$query = "INSERT INTO acter(name,originalName,dateA) VALUE('$item','','')";
+			$res = mysqli_query($dbh, $query);
+		}
+	}
 	// $filmActer=array();
 	// $i = 0;
 	// $sql = "SELECT id FROM acter where name='$acter[0]' or name='$acter[1]' or name='$acter[2]' or name='$acter[3]' or name='$acter[4]' or name='$acter[5]' or name='$acter[6]' or name='$acter[7]' or name='$acter[8]' or name='$acter[9]'";
@@ -154,5 +154,5 @@
 			// VALUE('$name','$filmActer[0]','$filmActer[1]','$filmActer[2]','$filmActer[3]','$filmActer[4]','$filmActer[5]','$filmActer[6]','$filmActer[7]','$filmActer[8]','$filmActer[9]')";
 			// $res = mysqli_query($dbh, $query);
 		// }
-        print('end');
+    print('end');
 ?>
