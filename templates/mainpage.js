@@ -1,5 +1,4 @@
 (function (app) {
-// $(document).ready(function(){
 	var MkinofilmsModel = Backbone.Model.extend({
 		defaults : {
 			'login' : 'nenaz',
@@ -9,16 +8,21 @@
 
 	var VkinofilmsView = Backbone.View.extend({
 		className : 'main-model',
+        
 		id : 'model1',
+        
 		el : 'div',
+        
         navPage : app.getConfig('startNavPage'),
+        
 		template : _.template($('#blokFilm').html()),
+        
 		initialize : function(){
 			var self = this;
-			
 			self.beforeRender();
             self.render();
 		},
+        
         elem : {
             mainBlock : '#blokFilm',
             navLine : '.navigation-panel',
@@ -29,6 +33,7 @@
             backgroundMask : '.background-mask',
             navBlockAndFilms : '.navigation-block, .filmss',
         },
+        
 		events : {
 			'click [action="nav-prev"], [action="nav-next"]' : 'activeNavigateButton',
             'click [action="nav-page"]' : 'clickNavPage',
@@ -38,6 +43,7 @@
             'mouseout .block-rating' : 'closeRating',
             'click .rating' : 'selectRating',
 			'click [action="play-film"]' : 'playVideoButton',
+			'click [action="stop-film"]' : 'stopVideoButton',
             'click [type="button"]' : 'searchKP'
 		},
 
@@ -81,6 +87,7 @@
             $.when(app.Data.getMainMenu({globalCountPicture : app.Monitor().globalCountPicture})).done(function(data){
                 data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
                 self.data = data;
+                self.countPages = data.countPages;
                 self.renderTemplate(data, self.elem.mainBlock, 'mainBlock');
                 self.renderTemplate(data, self.elem.navLine,'navLine');
 			});
@@ -96,11 +103,14 @@
             $(elem).html(self.template(data));
         },
 		
-		activeNavigateButton : function(e, page){
+		activeNavigateButton : function(e){
             var self = this,
-				incPage = $(e.target).attr('action') === "nav-next" ? true : false;
-            self.navPage = incPage ? self.navPage + 1 : self.navPage - 1;
-			self.activeNavigatePage(self.navPage);
+				incPage = $(e.target).attr('action') === "nav-next" ? true : false,
+                page = self.navPage;
+            page = incPage ? page + 1 : page - 1;
+            if (page > 0 && page <= self.countPages) {
+                self.activeNavigatePage(page);
+            }
 		},
         
         clickNavPage : function(e){
@@ -115,6 +125,7 @@
         activeNavigatePage : function(navPage){
             var self = this,
 				deferred = $.Deferred();
+            self.navPage = navPage;
             $.when(app.Data.getNextPage({page : true,navPage : navPage,globalCountPicture : App.Monitor().globalCountPicture})).done(function(data){
                 data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
                 self.data = data;
@@ -137,6 +148,7 @@
 		// },
         
         viewFilm : function(e){
+            debugger;
             var self = this,
                 str = $(e.target).attr('src');
 
@@ -200,6 +212,13 @@
                 filmName.val('');
                 self.render();
             });
+        },
+        
+        stopVideoButton: function (e) {
+            debugger;
+            var self = this;
+            e.stopPropagation();
+            $(self.elem.backmask).removeClass('mask-hide').addClass('backMaskShow_animation');
         }
 	});
 

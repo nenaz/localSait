@@ -524,6 +524,32 @@ body{
                 width: 205px;
                 height: 290px;
             }
+            .button-film-action{
+                height: 21px;
+                opacity: 0.8;
+                width: 32px;
+                display: inline-block;
+                margin-left: 10px;
+                cursor: pointer;
+                position: relative;
+                top: -30px;
+            }
+            .button-play:hover{
+                opacity: 1;
+                background-color: lime;
+            }
+            .button-stop:hover{
+                opacity: 1;
+                background-color: red;
+            }
+            .button-play{
+                background: url('../images/system/movies_icons_4.png') no-repeat scroll 0px -696px transparent white;
+            }
+            .button-stop{
+                background: url('../images/system/movies_icons_4.png') no-repeat scroll 0px -862px transparent white;
+                float: right;
+                margin-right: 10px;
+            }
 		}
 		.block-rating{
             display: inline-block;
@@ -566,11 +592,11 @@ body{
                 width: 83%;
             }
 		}
-		.block-panel{
+		/*.block-panel{
 			width: 100%;
 			height: 45px;
-			background-color: rgb(67,40,255);
-			opacity: 0.8;
+            position: relative;
+            top: -30px;
             transition:All 300ms ease;
             transform: translate3d(0px,0px,0px);
 			.close{
@@ -581,7 +607,6 @@ body{
 				border-radius : 5px 5px 0 0;
 				right : 10px;
 				background-color: rgb(67,40,255);
-                /*-webkit-transition: opacity 100ms ease;*/
 			}
             
 			.panel-button{
@@ -589,28 +614,20 @@ body{
 				height: 35px;
 				opacity: 0.9;
 				border-radius: 16px;
-				/*background-color: black;*/
 				margin: 3px;
 				display: inline-block;
-				/*border: solid 1px black;*/
                 background-image: url('../images/system/pause_play_stop_black.png');
                 background-repeat: no-repeat;
                 background-size: cover;
 			}
-            .button-play{
-                background-position-x: -44px;
-            }
-            .button-stop{
-                background-position-x: -88px;
-            }
-		}
-        .block-panel:hover{
+		}*/
+        /*.block-panel:hover{
             transform: translate3d(0px,-40px,0px);
             opacity: 1;
             .close{
                 opacity: 0;
             }
-        }
+        }*/
 	}
 }
 .new-photoblock:hover{
@@ -723,6 +740,9 @@ to { -webkit-transform: scale(1.6,1.8) translate3d(225px,79px,0); }
 }
 .pageRating_animation {
     -webkit-transition: width 200ms linear;
+}
+.viewFilmButton {
+    -webkit-transition: all 200ms linear;
 }
 .pageRating-new-width{
     width : 205px !important;

@@ -24,11 +24,10 @@
 				</div>
 				<div class="block-picture">
 					<img src="..<%= obj.blockFilms["film-"+i].src_small %>"/>
+					<div class="button-play viewFilmButton button-film-action" action="play-film"></div>
+					<div class="button-stop viewFilmButton button-film-action" action="stop-film"></div>
 				</div>
 				<div class="block-panel">
-					<div class="close"></div>
-					<div class="panel-button button-play" action="play-film"></div>
-					<div class="panel-button button-stop" action="test-update"></div>
 				</div>
 			</div>
 		</div>
