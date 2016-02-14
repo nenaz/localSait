@@ -556,15 +556,17 @@ body{
             position: absolute;
             margin: 0;
             opacity : .9;
-            height : 30px;
-            border-radius : 15px;
-            background-color : #4328ff;
+            height : 50px;
             overflow: hidden;
-            width : 30px;
-            /*width : 205px;*/
+            width : 50px;
             color : #FFF9BF;
             text-shadow: 1px 1px 2px black, 0 0 1em red;
-            cursor : default;
+            background-image: url(../images/system/star-full-icon.png);
+            line-height: 55px;
+            background-size: 50px 50px;
+            background-repeat: no-repeat;
+            font-size: 14px;
+            text-align: center;
             .roundRating{
                 width: 205px;
             }
@@ -736,7 +738,7 @@ to { -webkit-transform: scale(1.6,1.8) translate3d(225px,79px,0); }
 }
 @-webkit-keyframes backMaskShowAnimation {
     from { opacity : 0;}
-    to { opacity : .5;}
+    to { opacity : .8;}
 }
 .pageRating_animation {
     -webkit-transition: width 200ms linear;
@@ -750,4 +752,30 @@ to { -webkit-transform: scale(1.6,1.8) translate3d(225px,79px,0); }
 
 .classPositionAbsolute{
     position: absolute;
+}
+
+ .preload-animation {
+    -webkit-animation: cssAnimation 1s infinite linear;
+}
+@-webkit-keyframes cssAnimation {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+.preload-box{
+    border-top: 9px @colorWhite solid;
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    border-left: 9px @colorWhite solid;
+    border-right: 9px @colorWhite solid;
+    border-radius: 50%;
+    border-bottom: 9px grey solid;
+    box-shadow: 0px 0px 30px @colorWhite, inset 0 0 10px grey;
+    position: absolute;
+    left: 50%;
+    top: 50%;
 }

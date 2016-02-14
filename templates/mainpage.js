@@ -39,8 +39,6 @@
             'click [action="nav-page"]' : 'clickNavPage',
 			'click .new-films-page' : 'viewFilm',
 			'click [action="load-mask"]' : 'closeViewFilm',
-            'mouseover .block-rating' : 'viewRating',
-            'mouseout .block-rating' : 'closeRating',
             'click .rating' : 'selectRating',
 			'click [action="play-film"]' : 'playVideoButton',
 			'click [action="stop-film"]' : 'stopVideoButton',
@@ -148,13 +146,12 @@
 		// },
         
         viewFilm : function(e){
-            debugger;
             var self = this,
                 str = $(e.target).attr('src');
-
+                debugger;
             $(self.elem.viewFilmElem).find('img').attr('src', str.replace('small', 'big'));  
             $(self.elem.viewFilmElem).removeClass('mask-hide pageCloseFilm_animation').addClass('pageViewFilm_animation');
-            $(self.elem.backmask).removeClass('mask-hide').addClass('backMaskShow_animation');
+            self.maskShow();
             $(self.elem.backmask).off('click').on('click',function(){
                 self.closeViewFilm();
             });
@@ -164,25 +161,22 @@
             var self = this;
 
             $(self.elem.viewFilmElem).removeClass('pageViewFilm_animation').addClass('pageCloseFilm_animation');
-            $('[action=load-mask]').removeClass('backMaskShow_animation').addClass('mask-hide');
-            _.delay(function(){
-                $(self.elem.viewFilmElem).addClass('mask-hide');
-            }, 200);
+            self.maskHide();
         },
         
-        viewRating : function(e){
-            var me = this,
-                blockRating = $(e.target).closest('.block-rating'),
-                ratingWidth = parseInt(blockRating.find('[data-rating]').attr('data-rating')) * 10;
+        // viewRating : function(e){
+            // var me = this,
+                // blockRating = $(e.target).closest('.block-rating'),
+                // ratingWidth = parseInt(blockRating.find('[data-rating]').attr('data-rating')) * 10;
 
-            blockRating.addClass(' pageRating-new-width');
-            blockRating.find('.star2').css({'width' : ratingWidth + '%'});
-        },
+            // blockRating.addClass(' pageRating-new-width');
+            // blockRating.find('.star2').css({'width' : ratingWidth + '%'});
+        // },
         
-        closeRating : function(e){
-            var blockRating = $(e.target).closest('.block-rating');
-            blockRating.removeClass(' pageRating-new-width');
-        },
+        // closeRating : function(e){
+            // var blockRating = $(e.target).closest('.block-rating');
+            // blockRating.removeClass(' pageRating-new-width');
+        // },
         
         selectRating : function(e){
             e.preventDefault();
@@ -199,8 +193,10 @@
             e.preventDefault();
             e.stopPropagation();
             console.log('fileName = '+fileName);
+            self.maskShow();
             $.when(app.Data.playVideo({fileName : fileName})).done(function(data){
                 console.log('done playVideo = ' + data);
+                self.maskHide();
             });
         },
         
@@ -215,10 +211,22 @@
         },
         
         stopVideoButton: function (e) {
-            debugger;
             var self = this;
             e.stopPropagation();
+            self.maskShow();
+        },
+        
+        maskShow: function () {
+            var self = this;
             $(self.elem.backmask).removeClass('mask-hide').addClass('backMaskShow_animation');
+        },
+        
+        maskHide: function () {
+            var self = this;
+             $('[action=load-mask]').removeClass('backMaskShow_animation').addClass('mask-hide');
+            _.delay(function(){
+                $(self.elem.viewFilmElem).addClass('mask-hide');
+            }, 200);
         }
 	});
 
