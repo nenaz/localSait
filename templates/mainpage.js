@@ -60,14 +60,18 @@
         
 		render : function(){
 			this.loadData();
-            this.afterRender();
 		},
         
         afterRender : function(){
+            var me = this;
             $('#blokFilm').css({'padding-left' : app.Monitor().globalPadding});
             $(this.elem.viewFilmElem).css({
                 'left' : app.Monitor().left,
                 'top' : app.Monitor().top,
+            });
+            // debugger;
+            _(me.$('.new-films-page')).each(function (el) {
+                $(el).app3d();
             });
         },
 		
@@ -88,6 +92,7 @@
                 self.countPages = data.countPages;
                 self.renderTemplate(data, self.elem.mainBlock, 'mainBlock');
                 self.renderTemplate(data, self.elem.navLine,'navLine');
+                self.afterRender();
 			});
 			return deferred.promise();
 		},
