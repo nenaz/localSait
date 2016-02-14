@@ -3,7 +3,7 @@
 	<div class="new-films-page" data-id="<%= i %>">
 		<div class="new-photoblock">
 			<div class="photoblock-parent">
-				<div class="block-rating pageRating_animation"><%= obj.blockFilms["film-"+i].rating %></div>
+				<div class="block-rating pageRating_animation"><%= (parseFloat(obj.blockFilms["film-"+i].rating)).toFixed(1) %></div>
 				<div class="block-picture">
 					<img src="..<%= obj.blockFilms["film-"+i].src_small %>"/>
 					<div class="button-play viewFilmButton button-film-action" action="play-film"></div>
