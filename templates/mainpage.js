@@ -148,7 +148,6 @@
         viewFilm : function(e){
             var self = this,
                 str = $(e.target).attr('src');
-                debugger;
             $(self.elem.viewFilmElem).find('img').attr('src', str.replace('small', 'big'));  
             $(self.elem.viewFilmElem).removeClass('mask-hide pageCloseFilm_animation').addClass('pageViewFilm_animation');
             self.maskShow();
