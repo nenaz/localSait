@@ -105,10 +105,13 @@
 		loadData : function(){
 			var self = this,
 				deferred = $.Deferred();
+            self.arrAllBigPagesId = [];
             $.when(app.Data.getMainMenu({globalCountPicture : app.Monitor().globalCountPicture})).done(function(data){
                 data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
-                // data.blockFilms['film-1'].src_small = ''
                 self.data = data;
+                for (i = 0; i < parseInt(data.countAll); i += 1) {
+                    self.arrAllBigPagesId = data.arrAllBigPagesId;
+                }
                 self.countPages = data.countPages;
                 self.renderTemplate(data, self.elem.mainBlock, 'mainBlock');
                 self.renderTemplate(data, self.elem.navLine,'navLine');
@@ -171,9 +174,15 @@
 		// },
         
         viewFilm : function(e){
+            e.preventDefault();
+            e.stopPropagation();
             var self = this,
-                str = $(e.target).attr('src');
-            $(self.elem.viewFilmElem).find('img').attr('src', str.replace('small', 'big'));  
+                str = e.target.getAttribute('src');
+                // debugger;
+            self.startImageId = e.target.closest('[data-id]').getAttribute('data-film-id');
+            // $(self.elem.viewFilmElem).find('img')[0].setAttribute('src', str.replace('small', 'big'));
+            // debugger;
+            $('#img1')[0].setAttribute('src', str.replace('small', 'big'));
             $(self.elem.viewFilmElem).removeClass('mask-hide pageCloseFilm_animation').addClass('pageViewFilm_animation');
             self.maskShow();
             $(self.elem.backmask).off('click').on('click',function(){
@@ -182,9 +191,14 @@
         },
         
         closeViewFilm : function(e){
-            var self = this;
-
+            var self = this,
+            img1 = document.getElementById('img1'),
+                img2 = document.getElementById('img2');
+            debugger;
             $(self.elem.viewFilmElem).removeClass('pageViewFilm_animation').addClass('pageCloseFilm_animation');
+            self.imageId = undefined;
+            // img1.setAttribute('id', 'img2');
+            // img2.setAttribute('id', 'img1');
             self.maskHide();
         },
         
@@ -257,16 +271,21 @@
             var me = this,
                 typeChange = e.target.closest('[data-slide]').getAttribute('data-slide'),
                 img1 = document.getElementById('img1'),
-                img2 = document.getElementById('img2');
+                img2 = document.getElementById('img2'),
+                srcPath = '../images/film_big/';
+            me.imageId = me.imageId || me.arrAllBigPagesId.indexOf(me.startImageId);
                 // debugger;
             if (JSON.parse(typeChange)) {
-                console.log(true);
-                app.Utils.addClass(img1, 'animation-slider-big-picture-out-next');
-                app.Utils.addClass(img2, 'animation-slider-big-picture-in-next');
+                me.imageId += 1;
+                img2.setAttribute('src', srcPath + me.arrAllBigPagesId[me.imageId] + '.jpg');
+                img2.style.cssText = 'transform: translate3d(0, 0, 0); opacity: 1; z-index: 2;';
+                img1.style.cssText += 'z-index: 1;';
                 _.delay(function () {
-                    app.Utils.removeClass(img1, 'animation-slider-big-picture-out-next');
-                    app.Utils.removeClass(img2, 'animation-slider-big-picture-in-next');
-                }, 1000)
+                    img1.style.cssText = '';
+                    img1.setAttribute('id', 'img2');
+                    img2.setAttribute('id', 'img1');
+                    img1.style.cssText = "transform: translate3d(100%,0,0); opacity: 1; z-index: 1;";
+                }, 500);
             } else {
                 console.log(false);
             }

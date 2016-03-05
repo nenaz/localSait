@@ -712,41 +712,15 @@ to { -webkit-transform: scale(1.6,1.8) translate3d(225px,79px,0); }
         /*width: 100%;*/
         width: 445px;
         height: 100%;
-        position: absolute;
+        /*position: absolute;*/
+        display: table-cell;
+        width: 100%;
     }
     video{
         width: 100%;
         height: 100%;
     }
 }
-/*+ анимация слайдера изображений +*/
-.animation-slider-big-picture-out-next {
--webkit-animation: animation-slider-big-picture-out-next 1s 1 linear;
--webkit-animation-fill-mode: forwards;
-}
-@-webkit-keyframes animation-slider-big-picture-out-next {
-    from {
-        width: 445px;
-    }
-    to {
-        width: 0;
-    }
-}
-.animation-slider-big-picture-in-next {
--webkit-animation: animation-slider-big-picture-in-next 1s 1 linear;
--webkit-animation-fill-mode: forwards;
-}
-@-webkit-keyframes animation-slider-big-picture-in-next {
-    from {
-        width: 0%;
-        left: 92%;
-    }
-    to {
-        width: 445px;
-        left: 7.7%
-    }
-}
-/*- анимация слайдера изображений -*/
 
 .background-mask{
     background-color : black;
@@ -863,3 +837,50 @@ to { -webkit-transform: scale(1.6,1.8) translate3d(225px,79px,0); }
 .slider-navigate-left{
     border-radius: 10px 0 0 10px;
 }
+.slider-navigate-center{
+    width: 445px;
+    height: 100%;
+    position: absolute;
+    display: table;
+    overflow: hidden;
+    div {
+        width: 200%;
+        overflow: hidden;
+        display: table;
+        img {
+            height: 100%;
+            display: inline-block;
+            /*width: 50%;*/
+            position: absolute;
+        }
+    }
+}
+/*+ анимация слайдера изображений +*/
+/* .animation-slider-big-picture-out-next {
+-webkit-animation: animation-slider-big-picture-out-next 1s 1 ease;
+-webkit-animation-fill-mode: forwards;
+}
+@-webkit-keyframes animation-slider-big-picture-out-next {
+    from {
+        transform: translate3d(0,0,0);
+    }
+    to {
+        transform: translate3d(-100%,0,0);
+    }
+}
+.animation-slider-big-picture-in-next {
+-webkit-animation: animation-slider-big-picture-in-next 1s 1 ease;
+-webkit-animation-fill-mode: forwards;
+}
+@-webkit-keyframes animation-slider-big-picture-in-next {
+    from {
+        transform: translate3d(0,0,0);
+    }
+    to {
+        transform: translate3d(-100%,0,0);
+    }
+} */
+.animation-slider-big-picture-in-next {
+    -webkit-transition: transform 400ms linear;
+}
+/*- анимация слайдера изображений -*/
