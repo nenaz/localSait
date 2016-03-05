@@ -709,14 +709,45 @@ to { -webkit-transform: scale(1.6,1.8) translate3d(225px,79px,0); }
     margin: 0;
     display: table;
     img{
-        width: 100%;
+        /*width: 100%;*/
+        width: 445px;
         height: 100%;
+        position: absolute;
     }
     video{
         width: 100%;
         height: 100%;
     }
 }
+/*+ анимация слайдера изображений +*/
+.animation-slider-big-picture-out-next {
+-webkit-animation: animation-slider-big-picture-out-next 1s 1 linear;
+-webkit-animation-fill-mode: forwards;
+}
+@-webkit-keyframes animation-slider-big-picture-out-next {
+    from {
+        width: 445px;
+    }
+    to {
+        width: 0;
+    }
+}
+.animation-slider-big-picture-in-next {
+-webkit-animation: animation-slider-big-picture-in-next 1s 1 linear;
+-webkit-animation-fill-mode: forwards;
+}
+@-webkit-keyframes animation-slider-big-picture-in-next {
+    from {
+        width: 0%;
+        left: 92%;
+    }
+    to {
+        width: 445px;
+        left: 7.7%
+    }
+}
+/*- анимация слайдера изображений -*/
+
 .background-mask{
     background-color : black;
     top: 0;

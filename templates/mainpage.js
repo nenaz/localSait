@@ -43,7 +43,8 @@
             'click .rating' : 'selectRating',
 			'click [action="play-film"]' : 'playVideoButton',
 			'click [action="stop-film"]' : 'stopVideoButton',
-            'click [type="button"]' : 'searchKP'
+            'click [type="button"]' : 'searchKP',
+			'click [action="change-slide"]' : 'changeSlide',
 		},
 
         beforeRender : function(){
@@ -250,6 +251,25 @@
             _.delay(function(){
                 $(self.elem.viewFilmElem).addClass('mask-hide');
             }, 200);
+        },
+        
+        changeSlide: function(e){
+            var me = this,
+                typeChange = e.target.closest('[data-slide]').getAttribute('data-slide'),
+                img1 = document.getElementById('img1'),
+                img2 = document.getElementById('img2');
+                // debugger;
+            if (JSON.parse(typeChange)) {
+                console.log(true);
+                app.Utils.addClass(img1, 'animation-slider-big-picture-out-next');
+                app.Utils.addClass(img2, 'animation-slider-big-picture-in-next');
+                _.delay(function () {
+                    app.Utils.removeClass(img1, 'animation-slider-big-picture-out-next');
+                    app.Utils.removeClass(img2, 'animation-slider-big-picture-in-next');
+                }, 1000)
+            } else {
+                console.log(false);
+            }
         }
 	});
 

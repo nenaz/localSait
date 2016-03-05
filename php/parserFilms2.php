@@ -1,9 +1,13 @@
 ﻿<?php
 	include_once('logs.php');
+    Logs('Startlog','Startlog1');
     include_once('constantsRU_inc.php');
+    Logs('Startlog','Startlog2');
     include_once('functions_inc.php');
+    Logs('Startlog','Startlog3');
     // session_start();
     include('mysql_inc.php');
+    Logs('Startlog','Startlog4');
 	if(isset($_GET['filmName'])){
 		$filmName = urlencode($_GET['filmName']);
 		// $idFilm = $_POST['id'];
@@ -16,11 +20,14 @@
 		$search = str_replace("_", "+", $filmName);
 		$post = false;
 	}
+    Logs('Startlog','Startlog5');
+    Logs('filmName',$filmName);
 	if($post==false){
 		$exe = '.'.pathinfo($search, PATHINFO_EXTENSION);
 		if($exe=='') $exe = MKV;
 		$exe = '.'.pathinfo($search, PATHINFO_EXTENSION);
 	}
+    Logs('Startlog','Startlog6');
 	$user=KP_USER;
 	$password=KP_PASS;
 	function post($url,$post,$refer){
@@ -41,7 +48,7 @@
 	//$result=post('http://www.kinopoisk.ru/level/1/film/'.$m[0].'/',null,'http://www.kinopoisk.ru/');
 	$result=post('http://www.kinopoisk.ru/index.php?first=no&what=&kp_query='.$search,null,'http://www.kinopoisk.ru/');
 	$result= iconv("cp1251", "utf-8", $result);
-	
+	Logs('получн результат  с КП',$result);
 	$searchParse=array(
 		'id' => '#element most_wanted(.*?)</li>#si',
 	);
@@ -70,6 +77,7 @@
 		'picture_small' => '#img width="205" src="(.*?)"#si',
         'country' => '#<div class="movieFlags">(.*?)<div id="photoBlock"#si'
 	);
+    Logs('parse','parse');
 	$new=array();
 	foreach($parse as $index => $value){
         preg_match($value,$result,$matches);
@@ -77,6 +85,7 @@
             $new[$index]=preg_replace("#<a.+?>(.+?)</a>#si","$1",$matches[1]);
         }
 	}
+    Logs('new','new');
     preg_match_all('/title=\D+">/',$new['country'],$new_country);
     $new_country_str = str_replace(['title="','">'],'',implode(', ',$new_country[0]));
     $new_acters_str = str_replace(['</li><li itemprop="actors">','...'],', ',$new['acts']);
@@ -107,6 +116,7 @@
 	$path_pic_big = $new['picture_big'];
 	$name_eng = str_replace(["?",":","&nbsp;","\n"],"",$new['originalname']);
     $exe = '.mkv';
+    Logs('var','var');
     if (isset($new['imdb'])) {
         $imdb = $new['imdb'];
         $kinopoisk = $new['kinopoisk'];
@@ -117,6 +127,7 @@
         $query_str_value = ")";
     }
     $obj = [];
+    Logs('obj','obj');
 	if($post==false){
 		$query = "INSERT INTO films(name_film,year_film,director,genre,total_time,age,people_date,other,id_acter,path_pic_big,path_pic_small,name_eng,exe,acters,country_film".$query_str_fields." 
 		VALUE('$name_film','$new_year','$director','$genre','$new_time[0]','$age','$premiere','$new_description','$new_acters_str','$path_pic_big','$path_pic_small','$name_eng','$exe','$new_acters_str','$new_country_str'".$query_str_value;
