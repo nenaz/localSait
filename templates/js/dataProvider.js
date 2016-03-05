@@ -6,6 +6,7 @@
             localStoragePrefix = '_films_';
         
         this.playVideo = function(param){
+            debugger;
             var deferred = $.Deferred();
             $.ajax({
 				url: '../php/file.php',

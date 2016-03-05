@@ -32,6 +32,7 @@
             actualRating : '.actual-rating',
             backgroundMask : '.background-mask',
             navBlockAndFilms : '.navigation-block, .filmss',
+            Sliderfilm : '#parent-slider-film',
         },
         
 		events : {
@@ -55,11 +56,28 @@
             $.when(app.Data.loadTemplate(self.elem.navLine, 'navigation')).done(function(data){
                 console.log('render navigation line');
             });
+            $.when(app.Data.loadTemplate(self.elem.Sliderfilm, 'sliderFilm')).done(function(data){
+                console.log('render sliderFilm');
+            });
 			return deferred.promise();
         },
         
+        // afterRender : function () {
+            // var self = this;
+            // debugger;
+            // _(self.$('[component="pic3d"]')).each(function (el) {
+                // debugger;
+                // app.Data.app3d($(el));
+                // app.Data.app3d(el);
+            // });
+        // },
+        
 		render : function(){
-			this.loadData();
+            var self = this;
+            // $.when().done(function () {
+                
+            // });
+            self.loadData();
 		},
         
         afterRender : function(){
@@ -70,9 +88,10 @@
                 'top' : app.Monitor().top,
             });
             // debugger;
-            _(me.$('.new-films-page')).each(function (el) {
-                $(el).app3d();
-            });
+            // _(me.$('.new-films-page')).each(function (el) {
+            // _(me.$('[component="pic3d"]')).each(function (el) {
+                // $(el).app3d();
+            // });
         },
 		
 		delCommentTags : function(html){
@@ -85,9 +104,9 @@
 		loadData : function(){
 			var self = this,
 				deferred = $.Deferred();
-
             $.when(app.Data.getMainMenu({globalCountPicture : app.Monitor().globalCountPicture})).done(function(data){
                 data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
+                // data.blockFilms['film-1'].src_small = ''
                 self.data = data;
                 self.countPages = data.countPages;
                 self.renderTemplate(data, self.elem.mainBlock, 'mainBlock');

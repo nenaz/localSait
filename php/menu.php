@@ -29,7 +29,13 @@
 			$obj['blockFilms']['film-'.$i]['exeName'] = $row['exe'];
 			$obj['blockFilms']['film-'.$i]['title'] = $row['name_eng'];
 			$obj['blockFilms']['film-'.$i]['src_big'] = $row['path_pic_big'];
-			$obj['blockFilms']['film-'.$i]['src_small'] = $row['path_pic_small'];
+            if (file_exists(LOC_XAMP_FILMS.$row['path_pic_small'])) {
+                $obj['blockFilms']['film-'.$i]['src_small'] = $row['path_pic_small'];
+            } else {
+                $obj['blockFilms']['film-'.$i]['src_small'] = '/images/system/no_image.png';
+                // $obj['blockFilms']['film-'.$i]['src_small'] = LOC_XAMP_FILMS.$row['path_pic_small'];
+            }
+			// $obj['blockFilms']['film-'.$i]['src_small'] = '/images/pic3D/Broco_1.jpg';
 			$obj['blockFilms']['film-'.$i]['rating'] = $row['kinopoisk'];
 		}
 		$obj['blockFilmsCount'] = $i;

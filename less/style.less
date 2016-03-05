@@ -659,6 +659,19 @@ body{
         text-align: center;
         height: 100%;
         line-height: 25px;
+        span{
+            width: 20px;
+            display: inline-block;
+            padding: 2px;
+        }
+        span.active{
+            border-bottom: 1px solid blue;
+            border-top: 1px solid blue;
+        }
+        span:hover{
+            background-color: #c6df90;
+            cursor: pointer;
+        }
     }
     .nav-button-right{
         background-color: green;
@@ -687,14 +700,14 @@ to { -webkit-transform: scale(1.6,1.8) translate3d(225px,79px,0); }
 
 .pageViewFilm{
     height: 630px;
-    width: 445px;
+    width: 525px;
     background-repeat: no-repeat;
     background-size: contain;
     position : absolute;
     z-index : 1;
     padding: 0;
     margin: 0;
-    display: inline-block;
+    display: table;
     img{
         width: 100%;
         height: 100%;
@@ -743,7 +756,7 @@ to { -webkit-transform: scale(1.6,1.8) translate3d(225px,79px,0); }
 .pageRating_animation {
     -webkit-transition: width 200ms linear;
 }
-.viewFilmButton {
+.viewFilmButton, .sliderArrow {
     -webkit-transition: all 200ms linear;
 }
 .pageRating-new-width{
@@ -778,4 +791,44 @@ to { -webkit-transform: scale(1.6,1.8) translate3d(225px,79px,0); }
     position: absolute;
     left: 50%;
     top: 50%;
+}
+.slider-navigate{
+    width:40px;
+    height:100%;
+    background: #dadada;
+    opacity: .6;
+    display: table-cell;
+    position: relative;
+    .nav-arrow{
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: 50%;
+        left: 30%;
+    }
+    .arrow-left{
+        border-top: 30px solid transparent;
+        border-bottom: 30px solid transparent;
+        border-right: 20px solid #A07C7C;
+    }
+    .arrow-right{
+        border-left: 20px solid #A07C7C;
+        border-top: 30px solid transparent;
+        border-bottom: 30px solid transparent;
+    }
+}
+.slider-navigate:hover{
+    opacity: 1;
+    .arrow-left{
+        border-right: 20px solid #000;
+    }
+    .arrow-right{
+        border-left: 20px solid #000;
+    }
+}
+.slider-navigate-right{
+    border-radius: 0 10px 10px 0;
+}
+.slider-navigate-left{
+    border-radius: 10px 0 0 10px;
 }
