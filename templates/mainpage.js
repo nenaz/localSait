@@ -65,7 +65,7 @@
         
         // afterRender : function () {
             // var self = this;
-            // debugger;
+            // `;
             // _(self.$('[component="pic3d"]')).each(function (el) {
                 // debugger;
                 // app.Data.app3d($(el));
@@ -152,6 +152,7 @@
             var self = this,
 				deferred = $.Deferred();
             self.navPage = navPage;
+            // debugger;
             $.when(app.Data.getNextPage({page : true,navPage : navPage,globalCountPicture : App.Monitor().globalCountPicture})).done(function(data){
                 data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
                 self.data = data;
@@ -194,7 +195,7 @@
             var self = this,
             img1 = document.getElementById('img1'),
                 img2 = document.getElementById('img2');
-            debugger;
+            // debugger;
             $(self.elem.viewFilmElem).removeClass('pageViewFilm_animation').addClass('pageCloseFilm_animation');
             self.imageId = undefined;
             // img1.setAttribute('id', 'img2');
@@ -268,27 +269,45 @@
         },
         
         changeSlide: function(e){
+            console.time('changeSlide');
             var me = this,
                 typeChange = e.target.closest('[data-slide]').getAttribute('data-slide'),
                 img1 = document.getElementById('img1'),
                 img2 = document.getElementById('img2'),
+                img3 = document.getElementById('img3'),
+                // imgLeft = document.getElementsByClassName('slider-navigate-center')[0].getElementsByTagName('img')[0],
+                centerId = document.getElementsByClassName('slider-navigate-center')[0].getElementsByTagName('img')[1].getAttribute('id'),
+                imgCenter = document.getElementById(centerId),
+                // imgRight = document.getElementsByClassName('slider-navigate-center')[0].getElementsByTagName('img')[2],
                 srcPath = '../images/film_big/';
             me.imageId = me.imageId || me.arrAllBigPagesId.indexOf(me.startImageId);
-                // debugger;
             if (JSON.parse(typeChange)) {
                 me.imageId += 1;
-                img2.setAttribute('src', srcPath + me.arrAllBigPagesId[me.imageId] + '.jpg');
-                img2.style.cssText = 'transform: translate3d(0, 0, 0); opacity: 1; z-index: 2;';
-                img1.style.cssText += 'z-index: 1;';
-                _.delay(function () {
-                    img1.style.cssText = '';
-                    img1.setAttribute('id', 'img2');
-                    img2.setAttribute('id', 'img1');
-                    img1.style.cssText = "transform: translate3d(100%,0,0); opacity: 1; z-index: 1;";
-                }, 500);
+                $.when(img2.setAttribute('src', srcPath + me.arrAllBigPagesId[me.imageId] + '.jpg')).done(function () {
+                    img2.style.cssText = 'transform: translate3d(0, 0, 0); opacity: 1; z-index: 2;';
+                    img1.style.cssText += 'z-index: 1;';
+                    _.delay(function () {
+                        img1.style.cssText = '';
+                        img1.setAttribute('id', 'img2');
+                        img2.setAttribute('id', 'img1');
+                        img1.style.cssText = "transform: translate3d(115%,0,0); opacity: 0; z-index: 1;";
+                    }, 355);
+                });
             } else {
-                console.log(false);
+                me.imageId -= 1;
+                $.when(img3.setAttribute('src', srcPath + me.arrAllBigPagesId[me.imageId] + '.jpg')).done(function () {
+                    img3.style.cssText = 'transform: translate3d(0, 0, 0); opacity: 1; z-index: 2;';
+                    img1.style.cssText += 'z-index: 1;';
+                    _.delay(function () {
+                    // debugger;
+                        img1.style.cssText = '';
+                        img1.setAttribute('id', 'img3');
+                        img3.setAttribute('id', 'img1');
+                        img1.style.cssText = "transform: translate3d(-115%,0,0); opacity: 0; z-index: 1;";
+                    }, 355);
+                });
             }
+            console.timeEnd('changeSlide');
         }
 	});
 

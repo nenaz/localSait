@@ -36,6 +36,8 @@
 			$obj['blockFilms']['film-'.$i]['exeName'] = $row['exe'];
 			$obj['blockFilms']['film-'.$i]['title'] = $row['name_eng'];
 			$obj['blockFilms']['film-'.$i]['src_big'] = $row['path_pic_big'];
+            preg_match("/\d+/",$row['path_pic_big'], $idPic);
+            $obj['blockFilms']['film-'.$i]['arrAllBigPagesId'] = $idPic[0];
 			$obj['blockFilms']['film-'.$i]['src_small'] = $row['path_pic_small'];
 			$obj['blockFilms']['film-'.$i]['rating'] = $row['kinopoisk'];
 	}

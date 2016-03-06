@@ -3,8 +3,9 @@
 </div>
 <div class="slider-navigate-center">
     <div>
-        <img id="img1" src="" class="animation-slider-big-picture-in-next"/>
-        <img id="img2" src="" class="animation-slider-big-picture-in-next" style="transform: translate3d(100%,0,0);"/>
+        <img id="img3" src="" class="animation-slider-big-picture-in-next" style="transform: translate3d(-115%,0,0); opacity: 0; z-index: 1;"/>
+        <img id="img1" src="" class="animation-slider-big-picture-in-next" style="transform: translate3d(0px, 0px, 0px); opacity: 1; z-index: 1;"/>
+        <img id="img2" src="" class="animation-slider-big-picture-in-next" style="transform: translate3d(115%,0,0); opacity: 0; z-index: 1;"/>
     </div>
 </div>
 <div action="change-slide" data-slide="true" class="slider-navigate slider-navigate-right sliderArrow">
