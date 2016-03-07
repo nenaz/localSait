@@ -89,7 +89,11 @@
             var me = this;
             // $('#mainmenu').css({'padding-left' : app.Monitor().globalPadding});
             document.getElementById('mainmenu').style.cssText = 'height: ' + document.getElementsByClassName('filmss')[0].clientHeight + 'px';
-            // $('#blokFilm').css({'padding-left' : app.Monitor().globalPadding});
+            $('#blokFilm').css({
+                'padding-left' : app.Monitor().globalPadding,
+                'padding-right' : app.Monitor().globalPadding
+            });
+            // $('#blokFilm').css({'padding-left' : app.Monitor().left});
             $(this.elem.viewFilmElem).css({
                 'left' : app.Monitor().left,
                 'top' : app.Monitor().top,
