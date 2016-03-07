@@ -33,6 +33,7 @@
             backgroundMask : '.background-mask',
             navBlockAndFilms : '.navigation-block, .filmss',
             Sliderfilm : '#parent-slider-film',
+            Mainmenu : '#mainmenu',
         },
         
 		events : {
@@ -52,7 +53,10 @@
                 deferred = $.Deferred();
             
             $.when(app.Data.loadTemplate(self.elem.mainBlock, 'mainpage')).done(function(data){
-                console.log('render menu');
+                console.log('render mainpage');
+            });
+            $.when(app.Data.loadTemplate(self.elem.Mainmenu, 'mainmenu')).done(function(data){
+                console.log('render mainmenu');
             });
             $.when(app.Data.loadTemplate(self.elem.navLine, 'navigation')).done(function(data){
                 console.log('render navigation line');
@@ -83,7 +87,9 @@
         
         afterRender : function(){
             var me = this;
-            $('#blokFilm').css({'padding-left' : app.Monitor().globalPadding});
+            // $('#mainmenu').css({'padding-left' : app.Monitor().globalPadding});
+            document.getElementById('mainmenu').style.cssText = 'height: ' + document.getElementsByClassName('filmss')[0].clientHeight + 'px';
+            // $('#blokFilm').css({'padding-left' : app.Monitor().globalPadding});
             $(this.elem.viewFilmElem).css({
                 'left' : app.Monitor().left,
                 'top' : app.Monitor().top,

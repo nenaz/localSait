@@ -14,6 +14,7 @@
             previewHeight = app.getConfig('previewHeight'),
             left = Math.floor(screenWidth / 2 - previewWidth / 2),
             top = Math.floor(screenHeight / 2 - previewHeight / 2);
+            globalPadding = (globalPadding > 60) ? globalPadding : 60;
             
         return function(){
             return {
