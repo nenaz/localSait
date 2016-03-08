@@ -1,33 +1,36 @@
 (function (app, $, localStorage) {
     'use strict';
     
-    var Monitor = function(){
+    // var Monitor = function(){
+    var Monitor = {
         // debugger;
         // var screenWidth = $('html').width(),
-        var screenWidth = document.getElementsByClassName('filmss')[0].clientWidth,
-            screenHeight = $('html').height(),
-            pictureWidth = app.getConfig('pictureWidth'),
-            pictureHeight = app.getConfig('pictureHeight'),
-            colPicture = Math.floor(screenWidth / pictureWidth),
-            rowPicture = Math.floor(screenHeight / pictureHeight),
-            globalCountPicture = colPicture * rowPicture,
-            // globalPadding = Math.floor(((screenWidth - 60) - pictureWidth * colPicture) / 2 ),
-            globalPadding = Math.floor((screenWidth - pictureWidth * colPicture) / 2 ),
-            previewWidth = app.getConfig('previewWidth'),
-            previewHeight = app.getConfig('previewHeight'),
-            // left = Math.floor((screenWidth - 60) / 2 - previewWidth / 2),
-            left = Math.floor(screenWidth / 2 - previewWidth / 2),
-            top = Math.floor(screenHeight / 2 - previewHeight / 2);
-            // globalPadding = (globalPadding > 60) ? globalPadding : 60;
-            // debugger;
-        return function(){
-            return {
-                globalCountPicture : globalCountPicture,
-                globalPadding : globalPadding,
-                left : left,
-                top : top,
-            }
-        };
+        getRender: function () {
+            var screenWidth = document.getElementsByClassName('filmss')[0].clientWidth,
+                screenHeight = $('html').height(),
+                pictureWidth = app.getConfig('pictureWidth'),
+                pictureHeight = app.getConfig('pictureHeight'),
+                colPicture = Math.floor(screenWidth / pictureWidth),
+                rowPicture = Math.floor(screenHeight / pictureHeight),
+                globalCountPicture = colPicture * rowPicture,
+                // globalPadding = Math.floor(((screenWidth - 60) - pictureWidth * colPicture) / 2 ),
+                globalPadding = Math.floor((screenWidth - pictureWidth * colPicture) / 2 ),
+                previewWidth = app.getConfig('previewWidth'),
+                previewHeight = app.getConfig('previewHeight'),
+                // left = Math.floor((screenWidth - 60) / 2 - previewWidth / 2),
+                left = Math.floor(screenWidth / 2 - previewWidth / 2),
+                top = Math.floor(screenHeight / 2 - previewHeight / 2);
+                // globalPadding = (globalPadding > 60) ? globalPadding : 60;
+                // debugger;
+            // return function(){
+                return {
+                    globalCountPicture : globalCountPicture,
+                    globalPadding : globalPadding,
+                    left : left,
+                    top : top,
+                }
+            // };
+        }
     };
 
     var Device = function(){
@@ -46,7 +49,7 @@
         } 
     };
     
-    app.Monitor = new Monitor();
+    app.Monitor = Monitor;
     app.Device = new Device();
 
 }(App, jQuery, localStorage));

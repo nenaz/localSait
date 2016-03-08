@@ -45,7 +45,7 @@
 			'click [action="play-film"]' : 'playVideoButton',
 			'click [action="stop-film"]' : 'stopVideoButton',
             'click [type="button"]' : 'searchKP',
-			'click [action="change-slide"]' : 'changeSlide',
+			'click [action="change-slide"]' : 'changeSlide'
 		},
 
         beforeRender : function(){
@@ -83,26 +83,30 @@
                 
             // });
             self.loadData();
+            window.addEventListener('resize', function () {
+               self.reRender(); 
+            });
 		},
         
         afterRender : function(){
-            var me = this;
+            var self = this;
             // $('#mainmenu').css({'padding-left' : app.Monitor().globalPadding});
-            document.getElementById('mainmenu').style.cssText = 'height: ' + document.getElementsByClassName('filmss')[0].clientHeight + 'px';
-            $('#blokFilm').css({
-                'padding-left' : app.Monitor().globalPadding,
-                'padding-right' : app.Monitor().globalPadding
-            });
+            // document.getElementById('mainmenu').style.cssText = 'height: ' + document.getElementsByClassName('filmss')[0].clientHeight + 'px';
+            // $('#blokFilm').css({
+                // 'padding-left' : app.Monitor().globalPadding,
+                // 'padding-right' : app.Monitor().globalPadding
+            // });
             // $('#blokFilm').css({'padding-left' : app.Monitor().left});
-            $(this.elem.viewFilmElem).css({
-                'left' : app.Monitor().left,
-                'top' : app.Monitor().top,
-            });
+            // $(this.elem.viewFilmElem).css({
+                // 'left' : app.Monitor().left,
+                // 'top' : app.Monitor().top,
+            // });
             // debugger;
             // _(me.$('.new-films-page')).each(function (el) {
             // _(me.$('[component="pic3d"]')).each(function (el) {
                 // $(el).app3d();
             // });
+            self.reRender();
         },
 		
 		delCommentTags : function(html){
@@ -116,7 +120,7 @@
 			var self = this,
 				deferred = $.Deferred();
             self.arrAllBigPagesId = [];
-            $.when(app.Data.getMainMenu({globalCountPicture : app.Monitor().globalCountPicture})).done(function(data){
+            $.when(app.Data.getMainMenu({globalCountPicture : app.Monitor.getRender().globalCountPicture})).done(function(data){
                 data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
                 self.data = data;
                 for (i = 0; i < parseInt(data.countAll); i += 1) {
@@ -163,7 +167,7 @@
 				deferred = $.Deferred();
             self.navPage = navPage;
             // debugger;
-            $.when(app.Data.getNextPage({page : true,navPage : navPage,globalCountPicture : App.Monitor().globalCountPicture})).done(function(data){
+            $.when(app.Data.getNextPage({page : true,navPage : navPage,globalCountPicture : App.Monitor.getRender().globalCountPicture})).done(function(data){
                 data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
                 self.data = data;
                 self.renderTemplate(data, self.elem.mainBlock, 'mainBlock');
@@ -318,6 +322,21 @@
                 });
             }
             console.timeEnd('changeSlide');
+        },
+        
+        reRender: function () {
+            var self = this;
+            console.log('reRender');
+            document.getElementById('mainmenu').style.cssText = 'height: ' + document.getElementsByClassName('filmss')[0].clientHeight + 'px';
+            $('#blokFilm').css({
+                'padding-left' : app.Monitor.getRender().globalPadding,
+                'padding-right' : app.Monitor.getRender().globalPadding
+            });
+            // $('#blokFilm').css({'padding-left' : app.Monitor().left});
+            $(this.elem.viewFilmElem).css({
+                'left' : app.Monitor.getRender().left,
+                'top' : app.Monitor.getRender().top,
+            });
         }
 	});
 
