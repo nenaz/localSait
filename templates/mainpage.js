@@ -90,22 +90,6 @@
         
         afterRender : function(){
             var self = this;
-            // $('#mainmenu').css({'padding-left' : app.Monitor().globalPadding});
-            // document.getElementById('mainmenu').style.cssText = 'height: ' + document.getElementsByClassName('filmss')[0].clientHeight + 'px';
-            // $('#blokFilm').css({
-                // 'padding-left' : app.Monitor().globalPadding,
-                // 'padding-right' : app.Monitor().globalPadding
-            // });
-            // $('#blokFilm').css({'padding-left' : app.Monitor().left});
-            // $(this.elem.viewFilmElem).css({
-                // 'left' : app.Monitor().left,
-                // 'top' : app.Monitor().top,
-            // });
-            // debugger;
-            // _(me.$('.new-films-page')).each(function (el) {
-            // _(me.$('[component="pic3d"]')).each(function (el) {
-                // $(el).app3d();
-            // });
             self.reRender();
         },
 		
@@ -166,11 +150,12 @@
             var self = this,
 				deferred = $.Deferred();
             self.navPage = navPage;
-            // debugger;
+            self.maskShow();
             $.when(app.Data.getNextPage({page : true,navPage : navPage,globalCountPicture : App.Monitor.getRender().globalCountPicture})).done(function(data){
                 data.countPages = Math.ceil(parseInt(data.countAll) / data.blockFilmsCount);
                 self.data = data;
                 self.renderTemplate(data, self.elem.mainBlock, 'mainBlock');
+                self.maskHide();
 			});
 			return deferred.promise();
         },
