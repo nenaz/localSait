@@ -282,29 +282,30 @@
             me.imageId = me.imageId || me.arrAllBigPagesId.indexOf(me.startImageId);
             if (JSON.parse(typeChange)) {
                 me.imageId += 1;
-                $.when(img2.setAttribute('src', srcPath + me.arrAllBigPagesId[me.imageId] + '.jpg')).done(function () {
+                img2.setAttribute('src', srcPath + me.arrAllBigPagesId[me.imageId] + '.jpg')
+                _.delay(function () {
                     img2.style.cssText = 'transform: translate3d(0, 0, 0); opacity: 1; z-index: 2;';
-                    img1.style.cssText += 'z-index: 1;';
-                    _.delay(function () {
-                        img1.style.cssText = '';
-                        img1.setAttribute('id', 'img2');
-                        img2.setAttribute('id', 'img1');
-                        img1.style.cssText = "transform: translate3d(115%,0,0); opacity: 0; z-index: 1;";
-                    }, 355);
-                });
+                },20);
+                img1.style.cssText += 'z-index: 1;';
+                img1.style.cssText = '';
+                img1.setAttribute('id', 'img2');
+                img2.setAttribute('id', 'img1');
+                _.delay(function () {
+                    img1.style.cssText = "transform: translate3d(115%,0,0); opacity: 0; z-index: 1;";
+                },500);
             } else {
                 me.imageId -= 1;
-                $.when(img3.setAttribute('src', srcPath + me.arrAllBigPagesId[me.imageId] + '.jpg')).done(function () {
+                img3.setAttribute('src', srcPath + me.arrAllBigPagesId[me.imageId] + '.jpg');
+                _.delay(function () {
                     img3.style.cssText = 'transform: translate3d(0, 0, 0); opacity: 1; z-index: 2;';
-                    img1.style.cssText += 'z-index: 1;';
-                    _.delay(function () {
-                    // debugger;
-                        img1.style.cssText = '';
-                        img1.setAttribute('id', 'img3');
-                        img3.setAttribute('id', 'img1');
-                        img1.style.cssText = "transform: translate3d(-115%,0,0); opacity: 0; z-index: 1;";
-                    }, 355);
-                });
+                },20);
+                img1.style.cssText += 'z-index: 1;';
+                img1.style.cssText = '';
+                img1.setAttribute('id', 'img3');
+                img3.setAttribute('id', 'img1');
+                _.delay(function () {
+                    img1.style.cssText = "transform: translate3d(-115%,0,0); opacity: 0; z-index: 1;";
+                }, 500);
             }
             console.timeEnd('changeSlide');
         },
